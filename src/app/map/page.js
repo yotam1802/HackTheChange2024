@@ -1,55 +1,58 @@
 "use client";
-import Map, { Marker, Popup } from "react-map-gl";
-import { useState } from "react";
+import Map from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import ConflictMarker from "@/components/ConflictMarker";
+import Navbar from "@/components/Navbar";
+import { useState, useEffect } from "react";
 
-export default function App() {
-  const [showPopup, setShowPopup] = useState(false);
+export default function MapPage() {
+  const [conflicts, setConflicts] = useState([]);
+  const [selectedConflict, setSelectedConflict] = useState(null);
+
+  useEffect(() => {
+    const fetchConflicts = async () => {
+      try {
+        const response = await fetch("/cache/conflicts.json");
+        const data = await response.json();
+        setConflicts(data);
+      } catch (error) {
+        console.error("Failed to fetch conflicts data:", error);
+      }
+    };
+
+    fetchConflicts(conflicts);
+  }, []);
+
+  console.log(conflicts);
 
   return (
     <div className="w-full">
+      <Navbar />
       <Map
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
         initialViewState={{
-          longitude: 35.2137,
-          latitude: 31.7683,
-          zoom: 6,
+          longitude: 0,
+          latitude: 40,
+          zoom: 1.5,
         }}
         style={{ width: "100vw", height: "100vh" }}
         mapStyle="mapbox://styles/mapbox/dark-v10"
       >
-        {/* Minimalistic Marker for Israel/Palestine */}
-        <Marker
-          longitude={35.2137}
-          latitude={31.7683}
-          onClick={(e) => {
-            e.originalEvent.stopPropagation();
-            setShowPopup(true);
-          }}
-        >
-          <div
-            className="flex items-center justify-center w-4 h-4 bg-white rounded-full cursor-pointer"
-            style={{
-              boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
-            }}
-          ></div>
-        </Marker>
-
-        {/* Popup that shows when marker is clicked */}
-        {showPopup && (
-          <Popup
-            longitude={35.2137}
-            latitude={31.7683}
-            onClose={() => setShowPopup(false)}
-            closeOnClick={true}
-            anchor="top"
-          >
-            <div className="p-2 text-white">
-              <h2 className="font-bold">Israel/Palestine Region</h2>
-              <p>Information about this area can be displayed here.</p>
-            </div>
-          </Popup>
-        )}
+        {conflicts.map((conflict, index) => {
+          return (
+            <ConflictMarker
+              key={index}
+              latitude={conflict.latitude}
+              longitude={conflict.longitude}
+              title={conflict.title}
+              description={conflict.description}
+              isOpen={selectedConflict === index}
+              onClick={() => setSelectedConflict(index)}
+              imageURL={conflict.imageSrcUrl}
+              imageDesc={conflict.imageDesc}
+            />
+          );
+        })}
       </Map>
     </div>
   );

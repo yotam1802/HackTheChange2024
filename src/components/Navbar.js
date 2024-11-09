@@ -15,7 +15,12 @@ export default function Navbar() {
     <nav className="bg-background text-foreground p-3 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center justify-between w-full">
-          <h1 className="text-lg font-semibold tracking-wide">MyApp</h1>
+          <Link
+            href="/dashboard"
+            className="text-lg font-semibold tracking-wide"
+          >
+            Empowernest
+          </Link>
           <Link
             href="/map"
             className="text-foreground text-sm hover:underline mx-4"
@@ -25,7 +30,7 @@ export default function Navbar() {
         </div>
         <button
           onClick={handleLogout}
-          className="rounded-full border border-foreground w-24 transition-colors flex items-center justify-center text-foreground text-sm h-8 px-4 hover:bg-foreground hover:text-background hover:border-transparent"
+          className="rounded-full border border-foreground w-24 transition-colors flex items-center justify-center text-foreground text-xs h-8 px-4 hover:bg-foreground hover:text-background hover:border-transparent"
         >
           Log Out
         </button>
