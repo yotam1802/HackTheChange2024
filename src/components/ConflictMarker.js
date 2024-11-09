@@ -49,8 +49,8 @@ export default function ConflictMarker({
                   src={imageURL}
                   alt={imageDesc}
                   layout="responsive"
-                  width={400} // Adjust width based on your design
-                  height={250} // Adjust height based on your design
+                  width={400}
+                  height={250}
                   objectFit="cover"
                   className="rounded"
                 />

@@ -27,3 +27,7 @@ body {
 .mapboxgl-popup-close-button:hover {
   @apply text-gray-900;
 }
+
+.mapboxgl-popup-close-button {
+  @apply m-2 p-1 text-gray-700 hover:text-gray-900 bg-white rounded-full;
+}
