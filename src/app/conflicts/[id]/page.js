@@ -8,8 +8,6 @@ export default function ConflictPage({ params }) {
   const router = useRouter();
   const { id } = use(params); // Unwrap params with React's `use()`
   const [conflict, setConflict] = useState(null);
-  const [animatedCasualties, setAnimatedCasualties] = useState("");
-  const [animatedDisplacement, setAnimatedDisplacement] = useState("");
 
   useEffect(() => {
     if (id) {
