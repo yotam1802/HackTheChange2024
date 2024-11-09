@@ -44,9 +44,7 @@ export default function MapPage() {
         }}
         style={{
           width: "100vw",
-          height: "100vh",
-          marginTop: "-3.5rem",
-          zIndex: -10,
+          height: "calc(100vh - 64px)",
         }}
         mapStyle="mapbox://styles/mapbox/dark-v10"
       >
