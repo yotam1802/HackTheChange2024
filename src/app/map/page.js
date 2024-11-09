@@ -41,12 +41,14 @@ export default function MapPage() {
 
   const flyToConflict = (conflict) => {
     setSelectedConflict(conflict.id);
-    mapRef.current.flyTo({
-      center: [conflict.longitude, conflict.latitude - 1],
-      zoom: 6,
-      speed: 1.2,
-      curve: 1,
-    });
+    if (mapRef.current) {
+      mapRef.current.flyTo({
+        center: [conflict.longitude, conflict.latitude - 1],
+        zoom: 6,
+        speed: 1.2,
+        curve: 1,
+      });
+    }
   };
 
   return (
