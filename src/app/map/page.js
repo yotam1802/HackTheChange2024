@@ -42,7 +42,12 @@ export default function MapPage() {
           latitude: 30,
           zoom: 3,
         }}
-        style={{ width: "100vw", height: "100vh" }}
+        style={{
+          width: "100vw",
+          height: "100vh",
+          marginTop: "-3.5rem",
+          zIndex: -10,
+        }}
         mapStyle="mapbox://styles/mapbox/dark-v10"
       >
         <NavigationControl position="top-left" />
