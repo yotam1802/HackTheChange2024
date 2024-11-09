@@ -9,10 +9,20 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import ConflictMarker from "@/components/ConflictMarker";
 import Navbar from "@/components/Navbar";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function MapPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [conflicts, setConflicts] = useState([]);
   const [selectedConflict, setSelectedConflict] = useState(null);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
 
   useEffect(() => {
     const fetchConflicts = async () => {
