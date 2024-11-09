@@ -50,7 +50,7 @@ export default function ConflictPage({ params }) {
           className="object-cover"
         />
       </div>
-      <p className="text-lg my-6 text-center mb-20 text-fourth_h">{conflict.imageDesc}</p>
+      <p className="text-lg my-6 text-center mb-20 text-gray-500">{conflict.imageDesc}</p>
       <p className="text-lg my-6 text-center mb-20">{conflict.description}</p>
       <div className="flex justify-around my-6 mb-20">
         <div className="flex flex-col items-center p-4 bg-third_color text-white rounded-lg shadow-md w-[300px]">

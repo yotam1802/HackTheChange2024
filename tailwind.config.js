@@ -10,8 +10,7 @@ module.exports = {
       colors: {
         background: "#171717",
         foreground: "#ededed",
-        third_color: "#DC143C",
-        fourth_h: "#E0E0E0"
+        third_color: "#DC143C"
       },
     },
   },
