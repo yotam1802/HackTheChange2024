@@ -4,7 +4,7 @@ import rateLimit from "express-rate-limit";
 import { body, validationResult } from "express-validator";
 import { OpenAI } from "openai";
 import dotenv from "dotenv";
-import clientPromise from "@/app/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 
 dotenv.config();
 

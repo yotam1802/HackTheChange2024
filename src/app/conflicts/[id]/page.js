@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaAngleLeft } from "react-icons/fa";
 import { use } from "react";
+import Chatbox from "@/components/Chatbox";
 
 export default function ConflictPage({ params: paramsPromise }) {
   const router = useRouter();
@@ -86,6 +87,8 @@ export default function ConflictPage({ params: paramsPromise }) {
       <p className="text-lg sm:text-xl text-center mb-6">
         {conflict.basic_info}
       </p>
+
+      <Chatbox />
     </div>
   );
 }
