@@ -6,10 +6,9 @@ import {
   faRobot,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-
 import "../app/globals.css";
 
-const Chatbox = () => {
+const Chatbox = ({ conflict }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -26,7 +25,10 @@ const Chatbox = () => {
         const response = await fetch("http://localhost:3000/api/ai", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: [...messages, userMessage] }),
+          body: JSON.stringify({
+            messages: [...messages, userMessage],
+            conflict, // Add conflict parameter here
+          }),
         });
         const data = await response.json();
         const assistantMessage = {
@@ -43,8 +45,8 @@ const Chatbox = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full">
-      <div className="flex flex-col w-full max-w-lg shadow-lg rounded-lg bg-gray-700 h-96">
+    <div className="flex flex-col items-center justify-center h-full w-full">
+      <div className="flex flex-col w-full max-w-lg shadow-lg rounded-lg h-96">
         <div className="flex-grow overflow-y-auto p-4">
           <div className="text-center text-gray-400 mb-4">
             Any questions? Get verified AI information here.
@@ -77,7 +79,7 @@ const Chatbox = () => {
             <div className="flex items-center my-2">
               <div className="flex items-center bg-gray-200 text-gray-800 px-4 py-2 rounded-lg shadow text-sm">
                 <FontAwesomeIcon icon={faRobot} className="mr-2" />
-                The chatbox is typing...
+                The assistant is typing...
               </div>
             </div>
           )}
@@ -85,7 +87,7 @@ const Chatbox = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="flex items-center border-t p-2 bg-gray-800 overflow-y-auto"
+          className="flex items-center border-t pt-4 p-2 overflow-y-auto"
         >
           <input
             type="text"

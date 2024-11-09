@@ -24,6 +24,7 @@ const validateMessages = [
     .withMessage("Invalid role"),
   body("messages.*.content").isString().trim().escape(),
   body("messages").isArray({ max: 10 }).withMessage("Too many messages"),
+  body("conflict").isString().optional().trim().escape(),
 ];
 
 export const config = {
@@ -38,7 +39,7 @@ export async function POST(req) {
     return NextResponse.json({ errors: errors.array() }, { status: 400 });
   }
 
-  const { messages } = await req.json();
+  const { messages, conflict } = await req.json();
 
   try {
     const chatCompletion = await openai.chat.completions.create({
@@ -46,7 +47,9 @@ export async function POST(req) {
       messages: [
         {
           role: "system",
-          content: "",
+          content: conflict
+            ? `This chat is focused on the topic of: ${conflict}`
+            : "", // Add conflict under system content if provided
         },
         ...messages,
       ],

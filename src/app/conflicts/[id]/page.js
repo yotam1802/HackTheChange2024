@@ -107,7 +107,7 @@ export default function ConflictPage({ params: paramsPromise }) {
         {conflict.basic_info}
       </p>
 
-      <Chatbox />
+      <Chatbox conflict={conflict.title} />
     </div>
   );
 }
