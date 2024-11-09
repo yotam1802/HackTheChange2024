@@ -1,10 +1,9 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Navbar from "@/components/Navbar";
-import { FaAngleLeft } from "react-icons/fa";
+import { FaAngleLeft, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
 export default function ConflictChatPage({ params }) {
   const { data: session, status } = useSession();
@@ -41,6 +40,8 @@ export default function ConflictChatPage({ params }) {
       const fetchThoughts = async () => {
         const res = await fetch(`/api/thoughts?conflictId=${id}`);
         const data = await res.json();
+        // Sort thoughts by likes in descending order
+        data.sort((a, b) => b.likes - a.likes);
         setThoughts(data);
       };
       fetchThoughts();
@@ -51,7 +52,7 @@ export default function ConflictChatPage({ params }) {
     if (thought.trim()) {
       const newThought = {
         conflictId: id,
-        user: session?.user?.email || "Anonymous",
+        user: session?.user?.name || "Anonymous",
         text: thought,
       };
 
@@ -64,8 +65,45 @@ export default function ConflictChatPage({ params }) {
       });
 
       const savedThought = await res.json();
-      setThoughts((prev) => [...prev, savedThought]);
+      setThoughts((prev) =>
+        [...prev, savedThought].sort((a, b) => b.likes - a.likes)
+      );
       setThought("");
+    }
+  };
+
+  const handleReaction = async (thoughtId, action) => {
+    try {
+      const res = await fetch("/api/thoughts", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ thoughtId, action }),
+      });
+
+      if (!res.ok) throw new Error("Failed to update reaction");
+
+      const updatedThought = await res.json();
+
+      setThoughts((prev) =>
+        prev
+          .map((thought) => {
+            if (thought._id === thoughtId) {
+              // Adjust likes or dislikes locally based on action
+              const newThought = { ...thought };
+              if (action === "like")
+                newThought.likes = (newThought.likes || 0) + 1;
+              if (action === "dislike")
+                newThought.dislikes = (newThought.dislikes || 0) + 1;
+              return newThought;
+            }
+            return thought;
+          })
+          .sort((a, b) => b.likes - a.likes)
+      );
+    } catch (error) {
+      console.error("Error updating reaction:", error);
     }
   };
 
@@ -98,7 +136,22 @@ export default function ConflictChatPage({ params }) {
                 key={index}
                 className="mb-2 p-2 border border-example-third_colour rounded-md"
               >
-                <strong>{thought.user}:</strong> {thought.text}
+                <div className="flex justify-between items-center">
+                  <span>
+                    <strong>{thought.user}:</strong> {thought.text}
+                  </span>
+                  <div className="flex items-center">
+                    <button onClick={() => handleReaction(thought._id, "like")}>
+                      <FaThumbsUp className="mr-1" /> {thought.likes || 0}
+                    </button>
+                    <button
+                      onClick={() => handleReaction(thought._id, "dislike")}
+                    >
+                      <FaThumbsDown className="ml-2 mr-1" />{" "}
+                      {thought.dislikes || 0}
+                    </button>
+                  </div>
+                </div>
               </li>
             ))}
           </ul>
