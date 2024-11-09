@@ -8,7 +8,7 @@ import {
 import "mapbox-gl/dist/mapbox-gl.css";
 import ConflictMarker from "@/components/ConflictMarker";
 import Navbar from "@/components/Navbar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -17,6 +17,7 @@ export default function MapPage() {
   const router = useRouter();
   const [conflicts, setConflicts] = useState([]);
   const [selectedConflict, setSelectedConflict] = useState(null);
+  const mapRef = useRef(null); // Ref to access the Map component
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -35,17 +36,24 @@ export default function MapPage() {
       }
     };
 
-    fetchConflicts(conflicts);
+    fetchConflicts();
   }, []);
 
-  const handleMarkerClick = (index) => {
-    setSelectedConflict(index === selectedConflict ? null : index);
+  const flyToConflict = (conflict) => {
+    setSelectedConflict(conflict.id);
+    mapRef.current.flyTo({
+      center: [conflict.longitude, conflict.latitude - 1],
+      zoom: 6,
+      speed: 1.2,
+      curve: 1,
+    });
   };
 
   return (
     <div className="w-full">
       <Navbar />
       <Map
+        ref={mapRef} // Attach ref to the Map component
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
         initialViewState={{
           longitude: 40,
@@ -61,22 +69,21 @@ export default function MapPage() {
         <NavigationControl position="top-left" />
         <FullscreenControl position="top-left" />
         <GeolocateControl position="top-left" />
-        {conflicts.map((conflict) => {
-          return (
-            <ConflictMarker
-              key={conflict.id}
-              latitude={conflict.latitude}
-              longitude={conflict.longitude}
-              title={conflict.title}
-              description={conflict.description}
-              isOpen={selectedConflict === conflict.id}
-              onClick={() => handleMarkerClick(conflict.id)}
-              imageURL={conflict.imageSrcUrl}
-              imageDesc={conflict.imageDesc}
-              id={conflict.id}
-            />
-          );
-        })}
+
+        {conflicts.map((conflict) => (
+          <ConflictMarker
+            key={conflict.id}
+            latitude={conflict.latitude}
+            longitude={conflict.longitude}
+            title={conflict.title}
+            description={conflict.description}
+            isOpen={selectedConflict === conflict.id}
+            onClick={() => flyToConflict(conflict)}
+            imageURL={conflict.imageSrcUrl}
+            imageDesc={conflict.imageDesc}
+            id={conflict.id}
+          />
+        ))}
       </Map>
     </div>
   );
