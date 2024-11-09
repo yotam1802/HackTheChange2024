@@ -20,8 +20,10 @@ export default function MapPage() {
       }
     };
 
-    fetchConflicts();
+    fetchConflicts(conflicts);
   }, []);
+
+  console.log(conflicts);
 
   return (
     <div className="w-full">
@@ -46,6 +48,8 @@ export default function MapPage() {
               description={conflict.description}
               isOpen={selectedConflict === index}
               onClick={() => setSelectedConflict(index)}
+              imageURL={conflict.imageSrcUrl}
+              imageDesc={conflict.imageDesc}
             />
           );
         })}

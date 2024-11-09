@@ -1,5 +1,6 @@
 "use client";
 import { Marker, Popup } from "react-map-gl";
+import Image from "next/image";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 export default function ConflictMarker({
@@ -9,6 +10,8 @@ export default function ConflictMarker({
   description,
   isOpen,
   onClick,
+  imageURL,
+  imageDesc,
 }) {
   return (
     <div>
@@ -31,8 +34,8 @@ export default function ConflictMarker({
       {/* Popup that shows when the marker is clicked */}
       {isOpen && (
         <Popup
-          longitude={longitude} // Set popup at the marker's longitude
-          latitude={latitude} // Set popup at the marker's latitude
+          longitude={longitude}
+          latitude={latitude}
           onClose={() => onClick(null)}
           closeOnClick={true}
           anchor="top"
@@ -40,6 +43,19 @@ export default function ConflictMarker({
           <div className="p-2 text-black">
             <h2 className="font-bold">{title}</h2>
             <p>{description}</p>
+            {imageURL && (
+              <div className="mt-2 w-full h-auto max-h-40 relative">
+                <Image
+                  src={imageURL}
+                  alt={imageDesc}
+                  layout="responsive"
+                  width={400} // Adjust width based on your design
+                  height={250} // Adjust height based on your design
+                  objectFit="cover"
+                  className="rounded"
+                />
+              </div>
+            )}
           </div>
         </Popup>
       )}
