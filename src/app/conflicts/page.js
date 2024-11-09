@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";  // Import useRouter hook
 
 export default function Page() {
   // Data from the database or API
@@ -13,7 +14,7 @@ export default function Page() {
     casualties: 3200, // Example casualty count
     displaced: 50000, // Example displaced people count
   };
-
+  
   const [casualtyCount, setCasualtyCount] = useState(0);
   const [displacedCount, setDisplacedCount] = useState(0);
   const [hasStartedCounting, setHasStartedCounting] = useState(false);
@@ -117,7 +118,6 @@ export default function Page() {
   }, []);
 
   const handleBackClick = () => {
-    router.push("/"); 
   };
 
   return (
