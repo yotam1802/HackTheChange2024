@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Navbar from "@/components/Navbar";
+import { FaAngleLeft } from "react-icons/fa"; // Import the angle left icon
 
 export default function ConflictChatPage({ params }) {
   const { data: session, status } = useSession();
@@ -12,7 +13,6 @@ export default function ConflictChatPage({ params }) {
   const [thought, setThought] = useState("");
   const [thoughts, setThoughts] = useState([]);
 
-  // Await `params` with React.use
   const { id } = React.use(params);
 
   useEffect(() => {
@@ -23,7 +23,6 @@ export default function ConflictChatPage({ params }) {
 
   useEffect(() => {
     if (id) {
-      // Check if `id` is loaded before fetching data
       const fetchConflict = async () => {
         const res = await fetch(`/cache/conflicts.json`);
         const data = await res.json();
@@ -54,6 +53,15 @@ export default function ConflictChatPage({ params }) {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="container mx-auto p-6">
+        {/* Back Button */}
+        <button
+          onClick={() => router.push("/dashboard")}
+          className="flex items-center text-foreground mb-4 hover:underline"
+        >
+          <FaAngleLeft className="mr-2" />
+          Back to Dashboard
+        </button>
+
         <h2 className="text-3xl font-semibold text-foreground my-4">
           {conflict.title}
         </h2>
@@ -81,7 +89,7 @@ export default function ConflictChatPage({ params }) {
             />
             <button
               onClick={handlePostThought}
-              className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+              className="mt-2 h-8 px-4 rounded-full border border-foreground text-foreground text-xs flex items-center justify-center transition-colors hover:bg-foreground hover:text-background hover:border-transparent"
             >
               Post Thought
             </button>
