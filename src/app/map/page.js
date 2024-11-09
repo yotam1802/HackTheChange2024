@@ -51,18 +51,19 @@ export default function MapPage() {
         <NavigationControl position="top-left" />
         <FullscreenControl position="top-left" />
         <GeolocateControl position="top-left" />
-        {conflicts.map((conflict, index) => {
+        {conflicts.map((conflict) => {
           return (
             <ConflictMarker
-              key={index}
+              key={conflict.id}
               latitude={conflict.latitude}
               longitude={conflict.longitude}
               title={conflict.title}
               description={conflict.description}
-              isOpen={selectedConflict === index}
-              onClick={() => handleMarkerClick(index)}
+              isOpen={selectedConflict === conflict.id}
+              onClick={() => handleMarkerClick(conflict.id)}
               imageURL={conflict.imageSrcUrl}
               imageDesc={conflict.imageDesc}
+              id={conflict.id}
             />
           );
         })}

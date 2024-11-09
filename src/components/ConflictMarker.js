@@ -1,6 +1,7 @@
 "use client";
 import { Marker, Popup } from "react-map-gl";
 import Image from "next/image";
+import Link from "next/link";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 export default function ConflictMarker({
@@ -12,6 +13,7 @@ export default function ConflictMarker({
   onClick,
   imageURL,
   imageDesc,
+  id,
 }) {
   return (
     <div>
@@ -56,6 +58,11 @@ export default function ConflictMarker({
                 />
               </div>
             )}
+            <Link href={`/conflicts/${id}`} className="focus:outline-none">
+              <p className="text-blue-500 mt-2 inline-block hover:underline">
+                Read more
+              </p>
+            </Link>
           </div>
         </Popup>
       )}
