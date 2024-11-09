@@ -1,6 +1,5 @@
 "use client";
 import { Marker, Popup } from "react-map-gl";
-import { useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 export default function ConflictMarker({
@@ -8,8 +7,9 @@ export default function ConflictMarker({
   longitude,
   title,
   description,
+  isOpen,
+  onClick,
 }) {
-  const [showPopup, setShowPopup] = useState(false);
   return (
     <div>
       <Marker
@@ -17,7 +17,7 @@ export default function ConflictMarker({
         latitude={latitude}
         onClick={(e) => {
           e.originalEvent.stopPropagation();
-          setShowPopup(true);
+          onClick();
         }}
       >
         <div
@@ -28,12 +28,12 @@ export default function ConflictMarker({
         ></div>
       </Marker>
 
-      {/* Popup that shows when marker is clicked */}
-      {showPopup && (
+      {/* Popup that shows when the marker is clicked */}
+      {isOpen && (
         <Popup
-          longitude={35.2137}
-          latitude={31.7683}
-          onClose={() => setShowPopup(false)}
+          longitude={longitude} // Set popup at the marker's longitude
+          latitude={latitude} // Set popup at the marker's latitude
+          onClose={() => onClick(null)}
           closeOnClick={true}
           anchor="top"
         >
