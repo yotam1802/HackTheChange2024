@@ -1,4 +1,20 @@
+"use client";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 export default function Home() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/dashboard");
+    }
+  }, [status, router]);
+
+  if (status === "loading") return null; // Optional: Show a loading indicator while checking authentication status
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-4 p-8 font-[family-name:var(--font-geist-sans)]">
       <a
