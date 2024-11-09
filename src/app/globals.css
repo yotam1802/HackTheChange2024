@@ -12,3 +12,11 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.mapboxgl-popup-close-button {
+  @apply text-gray-700 font-bold opacity-100 focus:outline-none;
+}
+
+.mapboxgl-popup-close-button:hover {
+  @apply text-gray-900;
+}
