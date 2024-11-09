@@ -46,7 +46,8 @@ export default function DashboardPage() {
           {conflicts.map((conflict) => (
             <div
               key={conflict.id}
-              className="rounded-lg shadow-lg hover:shadow-xl p-4 bg-background border border-example-third_colour transition-transform transform hover:scale-105"
+              onClick={() => router.push(`/chat/${conflict.id}`)}
+              className="rounded-lg shadow-lg hover:shadow-xl p-4 bg-background border border-example-third_colour transition-transform transform hover:scale-105 cursor-pointer"
             >
               <img
                 src={conflict.imageSrcUrl}
