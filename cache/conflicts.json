@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "title": "Russia-Ukraine War",
     "countries": ["Russia", "Ukraine"],
     "description": "Ongoing since February 2022, this conflict involves Russia's invasion of Ukraine, leading to significant territorial disputes, international sanctions, and widespread humanitarian crises.",
@@ -21,6 +22,7 @@
     ]
   },
   {
+    "id": 2,
     "title": "Israeli-Palestinian Conflict",
     "countries": ["Israel", "Palestine"],
     "description": "A long-standing conflict over territorial claims, national recognition, and sovereignty, recently intensified by escalations in Gaza and the West Bank.",
@@ -42,6 +44,7 @@
     ]
   },
   {
+    "id": 3,
     "title": "Yemeni Civil War",
     "countries": ["Yemen"],
     "description": "Since 2014, Yemen has been embroiled in a civil war between the Houthi movement and the internationally recognized government, leading to a severe humanitarian crisis.",
@@ -63,6 +66,7 @@
     ]
   },
   {
+    "id": 4,
     "title": "Syrian Civil War",
     "countries": ["Syria"],
     "description": "Beginning in 2011, this multi-sided conflict involves the Syrian government, various rebel groups, ISIS, and international actors, resulting in massive displacement and casualties.",
