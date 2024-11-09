@@ -4,7 +4,7 @@
     "title": "Russia-Ukraine War",
     "countries": ["Russia", "Ukraine"],
     "description": "Ongoing since February 2022, this conflict involves Russia's invasion of Ukraine, leading to significant territorial disputes, international sanctions, and widespread humanitarian crises.",
-    "imageSrcUrl": "https://example.com/images/russia-ukraine-war.jpg",
+    "imageSrcUrl": "../cache_images/Russian_Ukraine.jpg",
     "casualties": "Tens of thousands of military and civilian casualties.",
     "displacement": "Over 8 million Ukrainians displaced within Europe.",
     "basic_info": "Conflict began with Russia's annexation of Crimea in 2014, escalating into full invasion in 2022. The war has prompted extensive global political and economic impacts.",
