@@ -15,7 +15,12 @@ export default function Navbar() {
     <nav className="bg-background text-foreground p-3 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center justify-between w-full">
-          <h1 className="text-lg font-semibold tracking-wide">Empowernest</h1>
+          <Link
+            href="/dashboard"
+            className="text-lg font-semibold tracking-wide"
+          >
+            Empowernest
+          </Link>
           <Link
             href="/map"
             className="text-foreground text-sm hover:underline mx-4"

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Navbar from "@/components/Navbar";
-import { FaAngleLeft } from "react-icons/fa"; // Import the angle left icon
+import { FaAngleLeft } from "react-icons/fa";
 
 export default function ConflictChatPage({ params }) {
   const { data: session, status } = useSession();
@@ -13,7 +13,7 @@ export default function ConflictChatPage({ params }) {
   const [thought, setThought] = useState("");
   const [thoughts, setThoughts] = useState([]);
 
-  const { id } = React.use(params);
+  const { id } = React.use(params); // Unwrap the params promise
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -36,13 +36,35 @@ export default function ConflictChatPage({ params }) {
     }
   }, [id]);
 
-  const handlePostThought = () => {
+  useEffect(() => {
+    if (id) {
+      const fetchThoughts = async () => {
+        const res = await fetch(`/api/thoughts?conflictId=${id}`);
+        const data = await res.json();
+        setThoughts(data);
+      };
+      fetchThoughts();
+    }
+  }, [id]);
+
+  const handlePostThought = async () => {
     if (thought.trim()) {
       const newThought = {
-        user: session?.user?.name || "Anonymous",
+        conflictId: id,
+        user: session?.user?.email || "Anonymous",
         text: thought,
       };
-      setThoughts((prev) => [...prev, newThought]);
+
+      const res = await fetch("/api/thoughts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newThought),
+      });
+
+      const savedThought = await res.json();
+      setThoughts((prev) => [...prev, savedThought]);
       setThought("");
     }
   };
