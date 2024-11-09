@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaAngleLeft } from "react-icons/fa";
 import { use } from "react";
+import { motion } from "framer-motion";
 import Chatbox from "@/components/Chatbox";
 
 export default function ConflictPage({ params: paramsPromise }) {
   const router = useRouter();
-  const params = use(paramsPromise); // Unwrap params with `use()`
+  const params = use(paramsPromise);
   const { id } = params;
   const [conflict, setConflict] = useState(null);
 
@@ -69,19 +70,37 @@ export default function ConflictPage({ params: paramsPromise }) {
       <p className="text-lg sm:text-xl text-center">{conflict.description}</p>
 
       <div className="flex flex-col sm:flex-row justify-center gap-6 my-6">
-        <div className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md w-full sm:w-[250px] lg:w-[300px] transition-transform transform hover:scale-105">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }} // Start further lower
+          animate={{ opacity: 1, y: 0 }} // Animate to normal position
+          transition={{
+            duration: 1.5,
+            delay: 0.3,
+            ease: "easeIn", // Smooth easing
+          }}
+          className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md w-full sm:w-[250px] lg:w-[300px] transition-transform transform hover:scale-105"
+        >
           <h3 className="text-xl font-semibold mb-2">Casualties:</h3>
           <p className="text-3xl sm:text-4xl font-bold">
             {conflict.casualties}
           </p>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md w-full sm:w-[250px] lg:w-[300px] transition-transform transform hover:scale-105">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }} // Start further lower
+          animate={{ opacity: 1, y: 0 }} // Animate to normal position
+          transition={{
+            duration: 1.5,
+            delay: 0.6,
+            ease: "easeIn", // Smooth easing
+          }}
+          className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md w-full sm:w-[250px] lg:w-[300px] transition-transform transform hover:scale-105"
+        >
           <h3 className="text-xl font-semibold mb-2">Displaced People:</h3>
           <p className="text-3xl sm:text-4xl font-bold">
             {conflict.displacement}
           </p>
-        </div>
+        </motion.div>
       </div>
 
       <p className="text-lg sm:text-xl text-center mb-6">
