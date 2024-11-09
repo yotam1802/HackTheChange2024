@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "title": "Russia-Ukraine War",
+    "countries": ["Russia", "Ukraine"],
+    "description": "Ongoing since February 2022, this conflict involves Russia's invasion of Ukraine, leading to significant territorial disputes, international sanctions, and widespread humanitarian crises.",
+    "imageSrcUrl": "https://example.com/images/russia-ukraine-war.jpg",
+    "casualties": "Tens of thousands of military and civilian casualties.",
+    "displacement": "Over 8 million Ukrainians displaced within Europe.",
+    "basic_info": "Conflict began with Russia's annexation of Crimea in 2014, escalating into full invasion in 2022. The war has prompted extensive global political and economic impacts.",
+    "latitude": 48.3794,
+    "longitude": 31.1656,
+    "charities_resources": [
+      {
+        "name": "UNICEF",
+        "url": "https://www.unicef.org/emergencies/ukraine-war"
+      },
+      {
+        "name": "Red Cross",
+        "url": "https://www.icrc.org/en/where-we-work/europe-central-asia/ukraine"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Israeli-Palestinian Conflict",
+    "countries": ["Israel", "Palestine"],
+    "description": "A long-standing conflict over territorial claims, national recognition, and sovereignty, recently intensified by escalations in Gaza and the West Bank.",
+    "imageSrcUrl": "https://example.com/images/israel-palestine.jpg",
+    "casualties": "Thousands of casualties on both sides over decades.",
+    "displacement": "Approximately 5.7 million Palestinian refugees worldwide.",
+    "basic_info": "Roots of the conflict trace back to the early 20th century, with ongoing disputes over land and rights leading to periodic violence.",
+    "latitude": 31.0461,
+    "longitude": 34.8516,
+    "charities_resources": [
+      {
+        "name": "Doctors Without Borders",
+        "url": "https://www.doctorswithoutborders.org"
+      },
+      {
+        "name": "UNRWA",
+        "url": "https://www.unrwa.org"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Yemeni Civil War",
+    "countries": ["Yemen"],
+    "description": "Since 2014, Yemen has been embroiled in a civil war between the Houthi movement and the internationally recognized government, leading to a severe humanitarian crisis.",
+    "imageSrcUrl": "https://example.com/images/yemen-civil-war.jpg",
+    "casualties": "Over 377,000 deaths (both direct and indirect causes).",
+    "displacement": "More than 4 million people internally displaced.",
+    "basic_info": "Conflict has created one of the world’s worst humanitarian crises, with widespread famine and health issues.",
+    "latitude": 15.5527,
+    "longitude": 48.5164,
+    "charities_resources": [
+      {
+        "name": "Yemen Relief and Reconstruction Foundation",
+        "url": "https://www.yemenfoundation.org"
+      },
+      {
+        "name": "UN World Food Programme",
+        "url": "https://www.wfp.org/countries/yemen"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Syrian Civil War",
+    "countries": ["Syria"],
+    "description": "Beginning in 2011, this multi-sided conflict involves the Syrian government, various rebel groups, ISIS, and international actors, resulting in massive displacement and casualties.",
+    "imageSrcUrl": "https://example.com/images/syrian-civil-war.jpg",
+    "casualties": "Estimated 500,000+ deaths.",
+    "displacement": "Over 6.6 million internally displaced and 5.6 million refugees worldwide.",
+    "basic_info": "Sparked by the Arab Spring protests, the conflict has escalated into a complex proxy war involving regional and global powers.",
+    "latitude": 34.8021,
+    "longitude": 38.9968,
+    "charities_resources": [
+      {
+        "name": "Syrian American Medical Society",
+        "url": "https://www.sams-usa.net"
+      },
+      {
+        "name": "International Rescue Committee",
+        "url": "https://www.rescue.org/country/syria"
+      }
+    ]
+  }
+]
