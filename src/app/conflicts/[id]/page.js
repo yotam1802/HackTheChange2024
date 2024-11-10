@@ -111,29 +111,35 @@ export default function ConflictPage({ params: paramsPromise }) {
 
       <div className="flex flex-col sm:flex-row justify-center gap-6 my-6">
         <motion.div
-          initial={{ opacity: 0, y: -25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 2, delay: 0 }}
+          initial={{ opacity: 0, x: -150 }} // Start from the left (off-screen)
+          animate={{ opacity: 1, x: 0 }} // Move to the center (on-screen)
+          transition={{
+            duration: 2, // Decreased to make it faster, feel free to adjust to your preference
+            ease: "easeInOut", // Make the transition smoother
+            delay: 0.25, // Slight delay to make it feel more gradual
+          }}
           className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md w-full sm:w-[250px] lg:w-[300px] transition-transform transform hover:scale-105"
         >
           <h3 className="text-xl font-semibold mb-2">Casualties:</h3>
           <p className="text-3xl sm:text-4xl font-bold">
             {casualties.toLocaleString()}
-          </p>{" "}
-          {/* Format number */}
+          </p>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, delay: 0.6 }}
+          initial={{ opacity: 0, x: 150 }} // Start from the right (off-screen)
+          animate={{ opacity: 1, x: 0 }} // Move to the center (on-screen)
+          transition={{
+            duration: 2, // Decreased to make it faster
+            ease: "easeInOut", // Smooth easing function
+            delay: 0.25, // Slightly staggered delay for smoother entrance
+          }}
           className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md w-full sm:w-[250px] lg:w-[300px] transition-transform transform hover:scale-105"
         >
           <h3 className="text-xl font-semibold mb-2">Displaced People:</h3>
           <p className="text-3xl sm:text-4xl font-bold">
             {displaced.toLocaleString()}
-          </p>{" "}
-          {/* Format number */}
+          </p>
         </motion.div>
       </div>
 
