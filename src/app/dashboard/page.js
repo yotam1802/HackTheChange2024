@@ -62,7 +62,17 @@ export default function DashboardPage() {
     );
   }
 
-  // Group conflicts by continent
+  // Gradient colors for each continent
+  const gradients = {
+    Africa: "from-blue-500 to-purple-500",
+    Asia: "from-green-400 to-teal-500",
+    Europe: "from-red-500 to-orange-500",
+    "North America": "from-yellow-500 to-pink-500",
+    "South America": "from-purple-500 to-indigo-500",
+    Oceania: "from-teal-500 to-blue-500",
+    Antarctica: "from-purple-500 to-indigo-500",
+  };
+
   const continents = [
     "Africa",
     "Asia",
@@ -72,6 +82,7 @@ export default function DashboardPage() {
     "Oceania",
     "Antarctica",
   ];
+
   const conflictsByContinent = continents.map((continent) => ({
     continent,
     conflicts: conflicts.filter((conflict) => conflict.continent === continent),
@@ -96,45 +107,52 @@ export default function DashboardPage() {
           ({ continent, conflicts }) =>
             conflicts.length > 0 && ( // Only show section if there are conflicts for the continent
               <div key={continent} className="mb-12" id={continent}>
-                <hr className="border-example-third_colour mb-4" />
+                <hr className={`bg-gradient-to-r ${gradients[continent]} h-1 mb-4`} />
                 <h3 className="text-xl font-semibold text-foreground mb-4 text-center">
                   {continent}
                 </h3>
-                <hr className="border-example-third_colour mb-6" />
+                <hr className={`bg-gradient-to-r ${gradients[continent]} h-1 mb-6`} />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {conflicts.map((conflict) => (
                     <div
                       key={conflict.id}
                       onClick={() => router.push(`/chat/${conflict.id}`)}
-                      className="rounded-lg shadow-lg hover:shadow-xl p-4 bg-background border border-example-third_colour transition-transform transform hover:scale-105 cursor-pointer"
+                      className={`p-[1px] rounded-lg border-transparent transition-transform transform hover:scale-105 cursor-pointer bg-background`}
                     >
-                      <img
-                        src={conflict.imageSrcUrl}
-                        alt={conflict.title}
-                        className="w-full h-48 object-cover rounded-md mb-4"
-                      />
-                      <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">
-                        {conflict.title}
-                      </h3>
-                      <p className="text-sm sm:text-base text-foreground mb-2">
-                        {truncateText(conflict.description)}
-                      </p>
-                      <p className="text-xs sm:text-sm text-foreground mb-1">
-                        <strong className="text-example-third_colour">
-                          Casualties:
-                        </strong>{" "}
-                        {conflict.casualties}
-                      </p>
-                      <p className="text-xs sm:text-sm text-foreground mb-1">
-                        <strong className="text-example-third_colour">
-                          Displacement:
-                        </strong>{" "}
-                        {conflict.displacement}
-                      </p>
-                      <p className="text-xs sm:text-sm text-foreground mt-2">
-                        {conflict.basic_info}
-                      </p>
+                      {/* Hover Gradient Border */}
+                      <div
+                        className={`rounded-lg shadow-lg hover:shadow-xl p-1 bg-background border border-transparent hover:border-0 hover:bg-gradient-to-r ${gradients[continent]}`}
+                      >
+                        <div className="bg-background rounded-lg p-4">
+                          <img
+                            src={conflict.imageSrcUrl}
+                            alt={conflict.title}
+                            className="w-full h-48 object-cover rounded-md mb-4"
+                          />
+                          <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">
+                            {conflict.title}
+                          </h3>
+                          <p className="text-sm sm:text-base text-foreground mb-2">
+                            {truncateText(conflict.description)}
+                          </p>
+                          <p className="text-xs sm:text-sm text-foreground mb-1">
+                            <strong className="text-example-third_colour">
+                              Casualties:
+                            </strong>{" "}
+                            {conflict.casualties}
+                          </p>
+                          <p className="text-xs sm:text-sm text-foreground mb-1">
+                            <strong className="text-example-third_colour">
+                              Displacement:
+                            </strong>{" "}
+                            {conflict.displacement}
+                          </p>
+                          <p className="text-xs sm:text-sm text-foreground mt-2">
+                            {conflict.basic_info}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
