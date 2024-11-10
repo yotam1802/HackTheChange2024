@@ -1,25 +1,60 @@
-import React from "react";
+// /components/Sidebar.js
+
+import React, { useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 export default function Sidebar({ onScrollToSection }) {
+  const [isOpen, setIsOpen] = useState(false);
   const continents = ["Africa", "Asia", "Europe", "North America", "South America", "Oceania", "Antarctica"];
 
+  const toggleMenu = () => setIsOpen(!isOpen);
+
   return (
-    <aside className="w-64 bg-background text-white p-4 h-screen sticky top-0">
-      <h2 className="text-2xl text-center font-bold mb-6 tracking-widest text-example-third_colour">
-        Continents
-      </h2>
-      <ul className="space-y-4">
-        {continents.map((continent, index) => (
-          <li
-            key={index}
-            className="flex items-center cursor-pointer transition-colors duration-300 menuoption"
-            onClick={() => onScrollToSection(continent)}
-          >
-            <span className="text-third_color mr-2">•</span>
-            <span className="hover:text-third_color">{continent}</span>
-          </li>
-        ))}
-      </ul>
-    </aside>
+    <div className="w-full bg-background text-white sticky top-0 z-50">
+      {/* Header for larger screens */}
+      <div className="flex items-center justify-between p-4">
+        <h2 className="text-xl font-bold tracking-widest text-example-third_colour mb-0">
+          Go To Continent
+        </h2>
+        <div className="hidden lg:flex space-x-4">
+          {continents.map((continent, index) => (
+            <button
+              key={index}
+              className="hover:text-third_color transition-colors duration-300"
+              onClick={() => onScrollToSection(continent)}
+            >
+              {continent}
+            </button>
+          ))}
+        </div>
+
+        {/* Hamburger Icon for smaller screens */}
+        <button onClick={toggleMenu} className="lg:hidden focus:outline-none">
+          {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+        </button>
+      </div>
+
+      {/* Sidebar Drawer for mobile */}
+      <div
+        className={`fixed inset-y-0 left-0 bg-background w-64 p-6 transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 lg:hidden`}
+      >
+        <ul className="space-y-4">
+          {continents.map((continent, index) => (
+            <li
+              key={index}
+              className="cursor-pointer hover:text-third_color transition-colors duration-300"
+              onClick={() => {
+                onScrollToSection(continent);
+                setIsOpen(false); // Close the drawer after selection
+              }}
+            >
+              {continent}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }
