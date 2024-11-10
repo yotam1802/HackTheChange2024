@@ -5,28 +5,26 @@ import Image from "next/image";
 import { FaAngleLeft } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Chatbox from "@/components/Chatbox";
-import { useInView } from "react-intersection-observer"; // Import useInView hook
+import { useInView } from "react-intersection-observer";
 import Footer from "@/components/Footer";
 
 export default function ConflictPage({ params: paramsPromise }) {
   const router = useRouter();
-  const params = React.use(paramsPromise); // Unwrap the params promise using React.use()
+  const params = React.use(paramsPromise);
   const { id } = params;
 
   const [conflict, setConflict] = useState(null);
   const [casualties, setCasualties] = useState(0);
   const [displaced, setDisplaced] = useState(0);
 
-  // Set up Intersection Observer for Casualties section
   const { ref: casualtiesRef, inView: casualtiesInView } = useInView({
-    triggerOnce: true, // Trigger only once when the element comes into view
-    threshold: 0.5, // Trigger when 50% of the element is visible
+    triggerOnce: true,
+    threshold: 0.5,
   });
 
-  // Set up Intersection Observer for Displaced People section
   const { ref: displacedRef, inView: displacedInView } = useInView({
-    triggerOnce: true, // Trigger only once when the element comes into view
-    threshold: 0.5, // Trigger when 50% of the element is visible
+    triggerOnce: true,
+    threshold: 0.5,
   });
 
   useEffect(() => {
@@ -43,7 +41,6 @@ export default function ConflictPage({ params: paramsPromise }) {
           console.error("Error loading conflict data:", error);
         }
       };
-
       fetchConflict();
     }
   }, [id]);
@@ -60,7 +57,6 @@ export default function ConflictPage({ params: paramsPromise }) {
           ? parseInt(conflict.displacement.replace(/,/g, ""))
           : conflict.displacement;
 
-      // Function to animate numbers
       const animateNumbers = (target, setValue, duration) => {
         const start = 0;
         const startTime = performance.now();
@@ -80,7 +76,6 @@ export default function ConflictPage({ params: paramsPromise }) {
         requestAnimationFrame(update);
       };
 
-      // Animate casualties and displaced only if they're in the viewport
       if (casualtiesInView) animateNumbers(casualtyTarget, setCasualties, 5000);
       if (displacedInView) animateNumbers(displacedTarget, setDisplaced, 5000);
     }
@@ -109,71 +104,6 @@ export default function ConflictPage({ params: paramsPromise }) {
           {conflict.title}
         </h1>
 
-      <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px] rounded-md overflow-hidden shadow-lg mb-6">
-        <Image
-          src={conflict.imageSrcUrl}
-          alt={conflict.imageDesc}
-          layout="fill"
-          objectFit="cover"
-          className="object-cover"
-        />
-      </div>
-
-      <p className="text-gray-500 text-center text-sm sm:text-base mb-6">
-        {conflict.imageDesc}
-      </p>
-
-      <p className="text-lg sm:text-xl text-center">{conflict.description}</p>
-
-      <div className="flex flex-col sm:flex-row justify-center gap-6 my-6">
-        {/* Casualties Section */}
-        <motion.div
-          ref={casualtiesRef} // Set the ref for intersection observer
-          initial={{ opacity: 0, x: -150 }}
-          animate={{
-            opacity: casualtiesInView ? 1 : 0,
-            x: casualtiesInView ? 0 : -150,
-          }}
-          transition={{
-            duration: 2,
-            ease: "easeInOut",
-            delay: 0.25,
-          }}
-          className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md w-full sm:w-[250px] lg:w-[300px] transition-transform transform hover:scale-105"
-    <>
-      <div className="flex flex-col min-h-screen bg-background text-foreground p-4 sm:p-6 lg:p-8">
-        <button
-          onClick={() => router.push("/map")}
-          className="flex items-center text-foreground text-lg mb-6 hover:underline hover:text-third_color"
-        >
-          <FaAngleLeft className="mr-2" />
-          Back to Map
-        </button>
-
-        {/* Displaced People Section */}
-        <motion.div
-          ref={displacedRef} // Set the ref for intersection observer
-          initial={{ opacity: 0, x: 150 }}
-          animate={{
-            opacity: displacedInView ? 1 : 0,
-            x: displacedInView ? 0 : 150,
-          }}
-          transition={{
-            duration: 2,
-            ease: "easeInOut",
-            delay: 0.25,
-          }}
-          className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md w-full sm:w-[250px] lg:w-[300px] transition-transform transform hover:scale-105"
-        >
-          <h3 className="text-xl font-semibold mb-2">Displaced People:</h3>
-          <p className="text-3xl sm:text-4xl font-bold">
-            {displaced.toLocaleString()}
-          </p>
-        </motion.div>
-        <h1 className="text-3xl sm:text-4xl font-bold text-center my-4 sm:my-6">
-          {conflict.title}
-        </h1>
-
         <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px] rounded-md overflow-hidden shadow-lg mb-6">
           <Image
             src={conflict.imageSrcUrl}
@@ -188,17 +118,20 @@ export default function ConflictPage({ params: paramsPromise }) {
           {conflict.imageDesc}
         </p>
 
-        <p className="text-lg sm:text-xl text-center">{conflict.description}</p>
+        <p className="text-lg sm:text-xl text-center mb-6">
+          {conflict.description}
+        </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-6 my-6">
+          {/* Casualties Section */}
           <motion.div
-            initial={{ opacity: 0, x: -150 }} // Start from the left (off-screen)
-            animate={{ opacity: 1, x: 0 }} // Move to the center (on-screen)
-            transition={{
-              duration: 2, // Decreased to make it faster, feel free to adjust to your preference
-              ease: "easeInOut", // Make the transition smoother
-              delay: 0.25, // Slight delay to make it feel more gradual
+            ref={casualtiesRef}
+            initial={{ opacity: 0, x: -150 }}
+            animate={{
+              opacity: casualtiesInView ? 1 : 0,
+              x: casualtiesInView ? 0 : -150,
             }}
+            transition={{ duration: 2, ease: "easeInOut", delay: 0.25 }}
             className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md w-full sm:w-[250px] lg:w-[300px] transition-transform transform hover:scale-105"
           >
             <h3 className="text-xl font-semibold mb-2">Casualties:</h3>
@@ -207,14 +140,15 @@ export default function ConflictPage({ params: paramsPromise }) {
             </p>
           </motion.div>
 
+          {/* Displaced People Section */}
           <motion.div
-            initial={{ opacity: 0, x: 150 }} // Start from the right (off-screen)
-            animate={{ opacity: 1, x: 0 }} // Move to the center (on-screen)
-            transition={{
-              duration: 2, // Decreased to make it faster
-              ease: "easeInOut", // Smooth easing function
-              delay: 0.25, // Slightly staggered delay for smoother entrance
+            ref={displacedRef}
+            initial={{ opacity: 0, x: 150 }}
+            animate={{
+              opacity: displacedInView ? 1 : 0,
+              x: displacedInView ? 0 : 150,
             }}
+            transition={{ duration: 2, ease: "easeInOut", delay: 0.25 }}
             className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md w-full sm:w-[250px] lg:w-[300px] transition-transform transform hover:scale-105"
           >
             <h3 className="text-xl font-semibold mb-2">Displaced People:</h3>
