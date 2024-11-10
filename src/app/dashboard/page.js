@@ -28,8 +28,8 @@ export default function DashboardPage() {
 
   if (status === "loading") {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-background">
-        <p className="text-xl text-foreground">Loading...</p>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-12 h-12 border-4 border-foreground border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }

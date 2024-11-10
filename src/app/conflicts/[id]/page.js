@@ -74,8 +74,8 @@ export default function ConflictPage({ params: paramsPromise }) {
 
   if (!conflict)
     return (
-      <div className="flex items-center justify-center min-h-screen text-lg text-foreground">
-        Loading conflict data...
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-12 h-12 border-4 border-foreground border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
 
