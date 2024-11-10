@@ -19,6 +19,7 @@ export default function ConflictPage({ params: paramsPromise }) {
   const [casualties, setCasualties] = useState(0);
   const [displaced, setDisplaced] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [newsArticles, setNewsArticles] = useState([]); // For news articles
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -95,6 +96,29 @@ export default function ConflictPage({ params: paramsPromise }) {
       if (displacedInView) animateNumbers(displacedTarget, setDisplaced, 5000);
     }
   }, [conflict, casualtiesInView, displacedInView]);
+
+  useEffect(() => {
+    if (conflict) {
+      // Fetch related news articles based on the conflict's title
+      const fetchNews = async () => {
+        try {
+          const res = await fetch(
+            `/api/news?query=${encodeURIComponent(conflict.title)}`
+          );
+          console.log();
+          const data = await res.json(
+            `/api/news?query=${encodeURIComponent(conflict.title)}`
+          );
+          console.log(`/api/news?query=${encodeURIComponent(conflict.title)}`); // Log full response for debugging
+          setNewsArticles(data.slice(0, 6)); // Limit to 9 articles
+        } catch (error) {
+          console.error("Error fetching news:", error);
+        }
+      };
+
+      fetchNews();
+    }
+  }, [conflict]);
 
   if (!conflict) {
     return (
@@ -180,6 +204,41 @@ export default function ConflictPage({ params: paramsPromise }) {
         <p className="text-lg sm:text-xl text-center mb-6">
           {conflict.basic_info}
         </p>
+
+        {/* Display news articles related to the conflict */}
+        <section className="news-section my-8">
+          <h2 className="text-2xl font-semibold mb-4 text-center">
+            Related News
+          </h2>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {newsArticles.map((article, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }} // Stagger fade-in effect
+                className="news-article bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-lg"
+              >
+                <h3 className="text-lg font-bold mb-2">{article.title}</h3>
+                <p className="text-sm text-gray-400 mb-4">
+                  {article.description}
+                </p>
+                <p className="text-xs text-gray-500 mb-2">
+                  Source: {article.source} | Published at:{" "}
+                  {new Date(article.publishedAt).toLocaleString()}
+                </p>
+                <a
+                  href={article.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline"
+                >
+                  Read more
+                </a>
+              </motion.div>
+            ))}
+          </div>
+        </section>
 
         {conflict.charities_resources &&
           conflict.charities_resources.length > 0 && (
