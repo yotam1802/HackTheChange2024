@@ -27,6 +27,11 @@ export default function ConflictPage({ params: paramsPromise }) {
     threshold: 0.5,
   });
 
+  const { ref: charitiesRef, inView: charitiesInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.5,
+  });
+
   useEffect(() => {
     if (id) {
       const fetchConflict = async () => {
@@ -100,7 +105,7 @@ export default function ConflictPage({ params: paramsPromise }) {
           Back to Map
         </button>
 
-        <h1 className="text-3xl sm:text-4xl font-bold text-center my-4 sm:my-6">
+        <h1 className="text-3xl sm:text-4xl font-bold text-center my-4 sm:my-10">
           {conflict.title}
         </h1>
 
@@ -161,6 +166,37 @@ export default function ConflictPage({ params: paramsPromise }) {
         <p className="text-lg sm:text-xl text-center mb-6">
           {conflict.basic_info}
         </p>
+
+        {/* Charities Resources Section */}
+        {conflict.charities_resources && conflict.charities_resources.length > 0 && (
+          <motion.div
+            ref={charitiesRef}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: charitiesInView ? 1 : 0,
+            }}
+            transition={{ duration: 2, ease: "easeInOut" }}
+            className="charities-section mb-24 mt-24"
+          >
+            <h3 className="text-3xl font-semibold text-center my-4">Charity Resources</h3>
+            <p className="text-lg text-center mb-3">
+              Here are a few charities that are actively supporting this cause. Consider contributing to make a difference.
+            </p>
+            <ul className="list-disc list-inside">
+              <div className="flex flex-wrap justify-center items-center gap-20 p-5">
+                {conflict.charities_resources.map((charity, index) => (
+                  <a
+                    key={index}
+                    className="min-w-96 h-26 p-6 bg-third_color rounded-lg shadow-md flex flex-col justify-between items-center text-center transition-transform duration-300 hover:scale-105"
+                    href={charity.url}
+                  >
+                    <h2 className="text-xl font-semibold text-foreground">{charity.name}</h2>
+                  </a>
+                ))}
+              </div>
+            </ul>
+          </motion.div>
+        )}
 
         <Chatbox conflict={conflict.title} />
       </div>
