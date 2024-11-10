@@ -36,14 +36,16 @@ export default function Home() {
         className="relative w-full h-[80vh] bg-cover bg-center flex items-end"
         style={{ backgroundImage: "url('/hero-background.jpg')" }}
       >
-        {/* Overlay */}
         <div className="absolute inset-0 bg-black opacity-50"></div>
-
-        {/* Hero Text */}
         <div className="relative z-10 text-center text-white p-8 w-full flex flex-col items-center mb-12">
           <h1 className="text-4xl sm:text-5xl font-bold mb-6">
             Welcome to EmpowerNest
           </h1>
+          <p className="max-w-lg text-lg sm:text-xl text-gray-200 mb-8">
+            A place to explore, learn, and engage in global issues affecting us
+            all. Join us in making a difference, one informed decision at a
+            time.
+          </p>
           <div className="flex gap-4">
             <a
               className="rounded-full bg-blue-500 hover:bg-blue-600 text-white text-sm sm:text-base h-10 sm:h-12 px-6 flex items-center justify-center transition-colors shadow-lg"
@@ -61,10 +63,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Additional Content */}
-      <div className="flex flex-col items-center justify-center p-8 bg-gray-850 text-gray-100">
-        <h2 className="text-2xl sm:text-3xl font-semibold mt-8 mb-4 text-white">
-          Why Choose EmpowerNest?
+      {/* Features Section */}
+      <div className="flex flex-col items-center justify-center p-8 bg-blue-600 text-gray-100 py-16">
+        <h2 className="text-2xl sm:text-3xl font-semibold mb-4 text-white">
+          What is EmpowerNest?
         </h2>
         <p className="max-w-2xl text-center mb-8 text-lg text-gray-200">
           EmpowerNest is a platform dedicated to fostering understanding and
@@ -139,6 +141,22 @@ export default function Home() {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Call to Action */}
+      <div className="flex flex-col items-center justify-center bg-background text-white py-16 px-8 text-center">
+        <h2 className="text-3xl font-bold mb-4">Ready to Make a Difference?</h2>
+        <p className="text-lg max-w-2xl mb-6">
+          Join EmpowerNest and become part of a global movement for peace and
+          understanding. Stay informed, participate in discussions, and explore
+          ways to help those in need.
+        </p>
+        <a
+          href="/signup"
+          className="rounded-full bg-white text-blue-600 hover:bg-gray-100 text-sm sm:text-base h-10 sm:h-12 px-6 flex items-center justify-center transition-colors shadow-lg"
+        >
+          Join Us Now
+        </a>
       </div>
 
       {/* Footer */}

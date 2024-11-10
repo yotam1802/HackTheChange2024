@@ -5,10 +5,10 @@ import { Titillium_Web } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 
-// Configure IBM Plex Sans with available weights
+// Configure Titillium Web with multiple available weights
 const titillium = Titillium_Web({
   subsets: ["latin"],
-  weight: ["400"], // Specify available weights
+  weight: ["200", "300", "400", "600", "700"], // Specify desired weights
 });
 
 export default function Layout({ children }) {
