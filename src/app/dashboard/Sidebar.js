@@ -21,7 +21,7 @@ export default function Sidebar({ onScrollToSection }) {
     <div className="w-full bg-background text-white sticky top-0 z-50">
       {/* Header for larger screens */}
       <div className="flex items-center justify-between p-4 md:px-24">
-        <h2 className="text-xl font-bold tracking-widest text-example-third_colour mb-0">
+        <h2 className="text-lg font-bold text-example-third_colour mb-0">
           Go To Continent
         </h2>
         <div className="hidden lg:flex space-x-4">

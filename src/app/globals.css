@@ -1,17 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Archivo&display=swap");
 
 :root {
   --background: #171717;
   --foreground: #ededed;
-  --font-archivo: "Archivo", sans-serif;
-}
-
-/* Apply Archivo font globally */
-* {
-  font-family: var(--font-archivo);
 }
 
 body {
