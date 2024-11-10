@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { FaAngleLeft, FaArrowUp, FaArrowDown } from "react-icons/fa";
 
 export default function ConflictChatPage({ params }) {
@@ -98,70 +99,74 @@ export default function ConflictChatPage({ params }) {
   if (status === "loading" || !conflict) return <p>Loading...</p>;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <div className="container mx-auto p-6">
-        <button
-          onClick={() => router.push("/dashboard")}
-          className="flex items-center text-foreground mb-4 hover:underline"
-        >
-          <FaAngleLeft className="mr-2" />
-          Back to Dashboard
-        </button>
+      <div className="flex-grow bg-background">
+        <div className="container mx-auto p-6">
+          <button
+            onClick={() => router.push("/dashboard")}
+            className="flex items-center text-foreground mb-4 hover:underline"
+          >
+            <FaAngleLeft className="mr-2" />
+            Back to Dashboard
+          </button>
 
-        <h2 className="text-3xl font-semibold text-foreground my-4">
-          {conflict.title}
-        </h2>
-        <p className="text-foreground mb-2">{conflict.description}</p>
+          <h2 className="text-3xl font-semibold text-foreground my-4">
+            {conflict.title}
+          </h2>
 
-        <div className="mt-4 bg-foreground bg-opacity-10 p-4 rounded-lg shadow-md">
-          <div className="flex items-center space-x-2">
-            <textarea
-              className="w-full p-4 rounded-lg bg-background text-foreground border border-foreground border-opacity-30 focus:outline-none focus:border-opacity-70 transition-all"
-              value={thought}
-              onChange={(e) => setThought(e.target.value)}
-              placeholder="Share your thoughts..."
-              rows={1}
-            />
-            <button
-              onClick={handlePostThought}
-              className="h-12 px-6 rounded-lg text-background bg-foreground hover:bg-opacity-90 transition-all transform hover:scale-105"
-            >
-              Post
-            </button>
-          </div>
-        </div>
-
-        <section className="mt-6">
-          <h3 className="text-2xl font-semibold text-foreground">
-            Public Thoughts
-          </h3>
-          <ul className="mt-4 space-y-2">
-            {thoughts.map((thought, index) => (
-              <li
-                key={index}
-                className="p-2 rounded-md flex items-start space-x-4"
+          <div className="mt-4 bg-foreground bg-opacity-10 p-4 rounded-lg shadow-md">
+            <div className="flex items-center space-x-2">
+              <textarea
+                className="w-full p-4 rounded-lg bg-background text-foreground border border-foreground border-opacity-30 focus:outline-none focus:border-opacity-70 transition-all"
+                value={thought}
+                onChange={(e) => setThought(e.target.value)}
+                placeholder="Share your thoughts..."
+                rows={1}
+              />
+              <button
+                onClick={handlePostThought}
+                className="h-12 px-6 rounded-lg text-background bg-foreground hover:bg-opacity-90 transition-all transform hover:scale-105"
               >
-                <div className="flex flex-col items-center space-y-1">
-                  <button onClick={() => handleReaction(thought._id, "like")}>
-                    <FaArrowUp className="text-lg" />
-                  </button>
-                  <span>{(thought.likes || 0) - (thought.dislikes || 0)}</span>
-                  <button
-                    onClick={() => handleReaction(thought._id, "dislike")}
-                  >
-                    <FaArrowDown className="text-lg" />
-                  </button>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">{thought.user}</p>
-                  {thought.text}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
+                Post
+              </button>
+            </div>
+          </div>
+
+          <section className="mt-6">
+            <h3 className="text-2xl font-semibold text-foreground">
+              Public Thoughts
+            </h3>
+            <ul className="mt-4 space-y-2">
+              {thoughts.map((thought, index) => (
+                <li
+                  key={index}
+                  className="p-2 rounded-md flex items-start space-x-4"
+                >
+                  <div className="flex flex-col items-center space-y-1">
+                    <button onClick={() => handleReaction(thought._id, "like")}>
+                      <FaArrowUp className="text-lg" />
+                    </button>
+                    <span>
+                      {(thought.likes || 0) - (thought.dislikes || 0)}
+                    </span>
+                    <button
+                      onClick={() => handleReaction(thought._id, "dislike")}
+                    >
+                      <FaArrowDown className="text-lg" />
+                    </button>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 mb-1">{thought.user}</p>
+                    {thought.text}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }

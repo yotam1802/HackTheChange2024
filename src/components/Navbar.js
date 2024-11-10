@@ -19,7 +19,7 @@ export default function Navbar() {
             href="/dashboard"
             className="text-lg font-semibold tracking-wide"
           >
-            Empowernest
+            EmpowerNest
           </Link>
           <Link
             href="/map"
