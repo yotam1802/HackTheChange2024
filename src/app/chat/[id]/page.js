@@ -4,7 +4,13 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { FaAngleLeft, FaArrowUp, FaArrowDown } from "react-icons/fa";
+import {
+  FaAngleLeft,
+  FaArrowUp,
+  FaArrowDown,
+  FaChevronDown,
+  FaChevronRight,
+} from "react-icons/fa";
 
 export default function ConflictChatPage({ params }) {
   const { data: session, status } = useSession();
@@ -12,6 +18,9 @@ export default function ConflictChatPage({ params }) {
   const [conflict, setConflict] = useState(null);
   const [thought, setThought] = useState("");
   const [thoughts, setThoughts] = useState([]);
+  const [replyTo, setReplyTo] = useState(null);
+  const [replyText, setReplyText] = useState({});
+  const [collapsedReplies, setCollapsedReplies] = useState({});
 
   const { id } = React.use(params);
 
@@ -43,12 +52,20 @@ export default function ConflictChatPage({ params }) {
     }
   }, [id]);
 
+  const toggleCollapse = (thoughtId) => {
+    setCollapsedReplies((prev) => ({
+      ...prev,
+      [thoughtId]: !prev[thoughtId],
+    }));
+  };
+
   const handlePostThought = async () => {
     if (thought.trim()) {
       const newThought = {
         conflictId: id,
         user: session?.user?.email || "Anonymous",
         text: thought,
+        parentThoughtId: replyTo,
       };
 
       const res = await fetch("/api/thoughts", {
@@ -64,6 +81,7 @@ export default function ConflictChatPage({ params }) {
         )
       );
       setThought("");
+      setReplyTo(null);
     }
   };
 
@@ -95,6 +113,100 @@ export default function ConflictChatPage({ params }) {
       console.error("Error updating reaction:", error);
     }
   };
+
+  const handleReplyChange = (thoughtId, text) => {
+    setReplyText((prev) => ({ ...prev, [thoughtId]: text }));
+  };
+
+  const handlePostReply = async (thoughtId) => {
+    if (replyText[thoughtId]?.trim()) {
+      const newReply = {
+        conflictId: id,
+        user: session?.user?.email || "Anonymous",
+        text: replyText[thoughtId],
+        parentThoughtId: thoughtId,
+      };
+
+      const res = await fetch("/api/thoughts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newReply),
+      });
+
+      const savedReply = await res.json();
+      setThoughts((prev) =>
+        [...prev, savedReply].sort(
+          (a, b) => b.likes - b.dislikes - (a.likes - a.dislikes)
+        )
+      );
+      setReplyText((prev) => ({ ...prev, [thoughtId]: "" }));
+      setReplyTo(null);
+    }
+  };
+
+  const renderThoughts = (thoughts, parentId = null) =>
+    thoughts
+      .filter((thought) => thought.parentThoughtId === parentId)
+      .map((thought) => (
+        <li
+          key={thought._id}
+          className="p-2 rounded-md flex items-start space-x-4"
+        >
+          <div className="flex flex-col items-center space-y-1">
+            <button onClick={() => handleReaction(thought._id, "like")}>
+              <FaArrowUp className="text-lg" />
+            </button>
+            <span>{(thought.likes || 0) - (thought.dislikes || 0)}</span>
+            <button onClick={() => handleReaction(thought._id, "dislike")}>
+              <FaArrowDown className="text-lg" />
+            </button>
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 mb-1">{thought.user}</p>
+            <p>{thought.text}</p>
+            <button
+              onClick={() => setReplyTo(thought._id)}
+              className="text-xs text-blue-500"
+            >
+              Reply
+            </button>
+            <button
+              onClick={() => toggleCollapse(thought._id)}
+              className="text-xs text-blue-500 ml-2"
+            >
+              {collapsedReplies[thought._id] ? (
+                <FaChevronRight />
+              ) : (
+                <FaChevronDown />
+              )}
+            </button>
+            {replyTo === thought._id && (
+              <div className="flex items-center space-x-2 mt-2">
+                <textarea
+                  className="w-full p-2 rounded-lg border border-gray-300 bg-transparent"
+                  value={replyText[thought._id] || ""}
+                  onChange={(e) =>
+                    handleReplyChange(thought._id, e.target.value)
+                  }
+                  placeholder="Write a reply..."
+                  rows={1}
+                />
+                <button
+                  onClick={() => handlePostReply(thought._id)}
+                  className="text-xs text-blue-500"
+                >
+                  Reply
+                </button>
+              </div>
+            )}
+            {!collapsedReplies[thought._id] && (
+              <ul className="ml-6 border-l pl-4">
+                {renderThoughts(thoughts, thought._id)}
+              </ul>
+            )}
+          </div>
+        </li>
+      ));
 
   if (status === "loading" || !conflict) return <p>Loading...</p>;
 
@@ -137,32 +249,7 @@ export default function ConflictChatPage({ params }) {
             <h3 className="text-2xl font-semibold text-foreground">
               Public Thoughts
             </h3>
-            <ul className="mt-4 space-y-2">
-              {thoughts.map((thought, index) => (
-                <li
-                  key={index}
-                  className="p-2 rounded-md flex items-start space-x-4"
-                >
-                  <div className="flex flex-col items-center space-y-1">
-                    <button onClick={() => handleReaction(thought._id, "like")}>
-                      <FaArrowUp className="text-lg" />
-                    </button>
-                    <span>
-                      {(thought.likes || 0) - (thought.dislikes || 0)}
-                    </span>
-                    <button
-                      onClick={() => handleReaction(thought._id, "dislike")}
-                    >
-                      <FaArrowDown className="text-lg" />
-                    </button>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500 mb-1">{thought.user}</p>
-                    {thought.text}
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <ul className="mt-4 space-y-2">{renderThoughts(thoughts)}</ul>
           </section>
         </div>
       </div>
