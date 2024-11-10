@@ -168,35 +168,52 @@ export default function ConflictPage({ params: paramsPromise }) {
         </p>
 
         {/* Charities Resources Section */}
-        {conflict.charities_resources && conflict.charities_resources.length > 0 && (
-          <motion.div
-            ref={charitiesRef}
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: charitiesInView ? 1 : 0,
-            }}
-            transition={{ duration: 2, ease: "easeInOut" }}
-            className="charities-section mb-24 mt-24"
-          >
-            <h3 className="text-3xl font-semibold text-center my-4">Charity Resources</h3>
-            <p className="text-lg text-center mb-3">
-              Here are a few charities that are actively supporting this cause. Consider contributing to make a difference.
-            </p>
-            <ul className="list-disc list-inside">
-              <div className="flex flex-wrap justify-center items-center gap-20 p-5">
-                {conflict.charities_resources.map((charity, index) => (
-                  <a
-                    key={index}
-                    className="min-w-96 h-26 p-6 bg-third_color rounded-lg shadow-md flex flex-col justify-between items-center text-center transition-transform duration-300 hover:scale-105"
-                    href={charity.url}
-                  >
-                    <h2 className="text-xl font-semibold text-foreground">{charity.name}</h2>
-                  </a>
-                ))}
+        {conflict.charities_resources &&
+          conflict.charities_resources.length > 0 && (
+            <motion.div
+              ref={charitiesRef}
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: charitiesInView ? 1 : 0,
+              }}
+              transition={{ duration: 2, ease: "easeInOut" }}
+              className="charities-section mb-24 mt-24"
+            >
+              <h3 className="text-3xl font-semibold text-center my-4">
+                Charity Resources
+              </h3>
+              <p className="text-lg text-center mb-6">
+                These organizations are supporting this cause. Consider
+                contributing to make a difference.
+              </p>
+              <div className="flex justify-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 w-full max-w-5xl px-4">
+                  {conflict.charities_resources.map((charity, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md transition-transform transform hover:scale-105"
+                    >
+                      <h2 className="text-xl font-semibold mb-3 text-center">
+                        {charity.name}
+                      </h2>
+                      <p className="text-center text-sm mb-4">
+                        {charity.description ||
+                          "Learn more about this charity's efforts to support the cause."}
+                      </p>
+                      <a
+                        href={charity.url}
+                        className="bg-white text-third_color px-4 py-2 rounded-md font-semibold transition-colors hover:bg-gray-200"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Visit Website
+                      </a>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </ul>
-          </motion.div>
-        )}
+            </motion.div>
+          )}
 
         <Chatbox conflict={conflict.title} />
       </div>
