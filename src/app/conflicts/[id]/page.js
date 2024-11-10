@@ -141,7 +141,7 @@ export default function ConflictPage({ params: paramsPromise }) {
           >
             <h3 className="text-xl font-semibold mb-2">Casualties:</h3>
             <p className="text-3xl sm:text-4xl font-bold">
-              {casualties.toLocaleString()}
+              +{casualties.toLocaleString()}
             </p>
           </motion.div>
 
@@ -158,7 +158,7 @@ export default function ConflictPage({ params: paramsPromise }) {
           >
             <h3 className="text-xl font-semibold mb-2">Displaced People:</h3>
             <p className="text-3xl sm:text-4xl font-bold">
-              {displaced.toLocaleString()}
+              +{displaced.toLocaleString()}
             </p>
           </motion.div>
         </div>
