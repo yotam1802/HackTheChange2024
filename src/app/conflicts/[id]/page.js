@@ -3,12 +3,17 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { FaAngleLeft } from "react-icons/fa";
+import { FaAngleLeft, FaGlobe } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Chatbox from "@/components/Chatbox";
 import { useInView } from "react-intersection-observer";
 import Footer from "@/components/Footer";
 import { FaTwitter, FaInstagram, FaFacebook, FaCopy } from "react-icons/fa";
+import {
+  VerticalTimeline,
+  VerticalTimelineElement,
+} from "react-vertical-timeline-component";
+import "react-vertical-timeline-component/style.min.css";
 
 export default function ConflictPage({ params: paramsPromise }) {
   const router = useRouter();
@@ -214,20 +219,25 @@ export default function ConflictPage({ params: paramsPromise }) {
             <h2 className="text-2xl font-semibold mb-4 text-center">
               Conflict Timeline
             </h2>
-            <div className="timeline-events space-y-6">
+            <VerticalTimeline>
               {conflict.timeline.map((event, idx) => (
-                <motion.div
+                <VerticalTimelineElement
                   key={idx}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="timeline-event p-4 bg-gray-800 text-white rounded-lg shadow-md"
+                  date={event.date}
+                  iconStyle={{ background: "#2c3e50", color: "#fff" }}
+                  icon={<FaGlobe />}
+                  contentStyle={{
+                    background: "#1c1c1e",
+                    color: "#fff",
+                    boxShadow: "0 3px 6px rgba(0, 0, 0, 0.3)",
+                  }}
+                  contentArrowStyle={{ borderRight: "7px solid #1c1c1e" }}
                 >
-                  <p className="text-lg font-semibold mb-2">{event.date}</p>
+                  <h3 className="text-xl font-semibold">{event.date}</h3>
                   <p className="text-gray-300">{event.event}</p>
-                </motion.div>
+                </VerticalTimelineElement>
               ))}
-            </div>
+            </VerticalTimeline>
           </section>
         )}
 
