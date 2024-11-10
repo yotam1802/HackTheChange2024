@@ -22,7 +22,8 @@ export default function ConflictChatPage({ params }) {
   const [replyTo, setReplyTo] = useState(null);
   const [replyText, setReplyText] = useState({});
   const [collapsedReplies, setCollapsedReplies] = useState({});
-  const [filter, setFilter] = useState("mostLiked"); // New filter state
+  const [filter, setFilter] = useState("mostLiked");
+  const [isLoadingThoughts, setIsLoadingThoughts] = useState(true);
 
   const { id } = React.use(params);
 
@@ -43,10 +44,12 @@ export default function ConflictChatPage({ params }) {
 
   useEffect(() => {
     if (id) {
+      setIsLoadingThoughts(true); // Set loading to true before fetching
       const fetchThoughts = async () => {
         const res = await fetch(`/api/thoughts?conflictId=${id}`);
         const data = await res.json();
         setThoughts(sortThoughts(data));
+        setIsLoadingThoughts(false); // Set loading to false after fetching
       };
       fetchThoughts();
     }
@@ -222,6 +225,15 @@ export default function ConflictChatPage({ params }) {
         <div className="w-12 h-12 border-4 border-foreground border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
+
+  // Render loading spinner when thoughts are being loaded
+  if (isLoadingThoughts || !conflict) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-12 h-12 border-4 border-foreground border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
