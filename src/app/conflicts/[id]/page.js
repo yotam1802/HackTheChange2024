@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import Chatbox from "@/components/Chatbox";
 import { useInView } from "react-intersection-observer";
 import Footer from "@/components/Footer";
+import { FaTwitter, FaInstagram, FaFacebook, FaCopy } from "react-icons/fa";
 
 export default function ConflictPage({ params: paramsPromise }) {
   const router = useRouter();
@@ -17,6 +18,13 @@ export default function ConflictPage({ params: paramsPromise }) {
   const [conflict, setConflict] = useState(null);
   const [casualties, setCasualties] = useState(0);
   const [displaced, setDisplaced] = useState(0);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+  };
 
   const { ref: casualtiesRef, inView: casualtiesInView } = useInView({
     triggerOnce: true,
@@ -53,6 +61,7 @@ export default function ConflictPage({ params: paramsPromise }) {
 
   useEffect(() => {
     if (conflict) {
+      // Check if casualties and displacement are strings before using .replace()
       const casualtyTarget =
         typeof conflict.casualties === "string"
           ? parseInt(conflict.casualties.replace(/,/g, ""))
@@ -135,7 +144,6 @@ export default function ConflictPage({ params: paramsPromise }) {
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-6 my-6">
-          {/* Casualties Section */}
           <motion.div
             ref={casualtiesRef}
             initial={{ opacity: 0, x: -150 }}
@@ -152,7 +160,6 @@ export default function ConflictPage({ params: paramsPromise }) {
             </p>
           </motion.div>
 
-          {/* Displaced People Section */}
           <motion.div
             ref={displacedRef}
             initial={{ opacity: 0, x: 150 }}
@@ -174,15 +181,12 @@ export default function ConflictPage({ params: paramsPromise }) {
           {conflict.basic_info}
         </p>
 
-        {/* Charities Resources Section */}
         {conflict.charities_resources &&
           conflict.charities_resources.length > 0 && (
             <motion.div
               ref={charitiesRef}
               initial={{ opacity: 0 }}
-              animate={{
-                opacity: charitiesInView ? 1 : 0,
-              }}
+              animate={{ opacity: charitiesInView ? 1 : 0 }}
               transition={{ duration: 2, ease: "easeInOut" }}
               className="charities-section mb-24 mt-8"
             >
@@ -224,7 +228,65 @@ export default function ConflictPage({ params: paramsPromise }) {
             </motion.div>
           )}
 
-        <Chatbox conflict={conflict.title} />
+        {/* Chatbox and Share Link */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-8 mb-16">
+          <Chatbox conflict={conflict.title} />
+
+          <div className="w-full sm:w-1/2 lg:w-1/3 bg-background text-foreground p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold mb-4">Share</h3>
+            <p className="mb-4">
+              Spread awareness about this conflict by sharing with your network.
+            </p>
+
+            <div className="flex flex-col gap-4">
+              {/* X (Twitter) */}
+              <a
+                href={`https://x.com/share?url=${encodeURIComponent(
+                  window.location.href
+                )}&text=${encodeURIComponent(conflict.title)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center px-4 py-2 rounded-md bg-blue-500 text-white font-semibold shadow-lg hover:bg-blue-600 transition-colors"
+              >
+                <FaTwitter className="mr-2" />
+                Share on X
+              </a>
+
+              {/* Instagram */}
+              <a
+                href="https://www.instagram.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center px-4 py-2 rounded-md bg-pink-500 text-white font-semibold shadow-lg hover:bg-pink-600 transition-colors"
+              >
+                <FaInstagram className="mr-2" />
+                Instagram
+              </a>
+
+              {/* Facebook */}
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                  window.location.href
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center px-4 py-2 rounded-md bg-blue-700 text-white font-semibold shadow-lg hover:bg-blue-800 transition-colors"
+              >
+                <FaFacebook className="mr-2" />
+                Facebook
+              </a>
+
+              {/* Copy Link */}
+              <button
+                onClick={handleCopyLink}
+                className="flex items-center px-4 py-2 rounded-md bg-gray-500 text-white font-semibold shadow-lg hover:bg-gray-600 transition-colors"
+              >
+                <FaCopy className={`mr-2 ${copied ? "animate-bounce" : ""}`} />
+                {copied ? "Copied!" : "Copy Link"}
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       <Footer />
     </>
