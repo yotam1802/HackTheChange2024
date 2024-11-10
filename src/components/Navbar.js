@@ -2,7 +2,7 @@
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";  // Import the Image component
+import Image from "next/image"; // Import the Image component
 
 export default function Navbar() {
   const router = useRouter();
@@ -13,11 +13,14 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-background text-foreground p-3 shadow-md h-18 z-50">
+    <nav className="bg-background text-foreground py-1 shadow-md h-18 max-h-18 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center justify-between w-full">
           {/* Add a wrapper for the logo and text */}
-          <Link href="/dashboard" className="text-lg font-semibold tracking-wide flex items-center">
+          <Link
+            href="/dashboard"
+            className="text-lg font-semibold tracking-wide flex items-center"
+          >
             {/* Favicon or logo */}
             <Image
               src="/favicon.ico"
