@@ -72,7 +72,7 @@ export default function Login() {
           />
           <button
             type="submit"
-            className="w-full bg-green-700 bg-opacity-80 text-white font-semibold py-2 rounded-md border-4 border-green-900 transition-all duration-200 hover:bg-opacity-90 hover:border-green-900 focus:border-green-900"
+            className="w-full bg-blue-600 bg-opacity-80 text-white font-semibold py-2 rounded-md border-4 border-blue-800 transition-all duration-200 hover:bg-opacity-90 hover:border-blue-900 focus:border-blue-900"
           >
             Login
           </button>
