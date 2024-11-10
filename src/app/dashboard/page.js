@@ -6,6 +6,14 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
 import Footer from "@/components/Footer";
+import {
+  FaGlobeAfrica,
+  FaGlobeAsia,
+  FaGlobeEurope,
+  FaGlobeAmericas,
+} from "react-icons/fa";
+import { GiIsland } from "react-icons/gi";
+import { WiSnowflakeCold } from "react-icons/wi";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -28,7 +36,6 @@ export default function DashboardPage() {
     fetchData();
   }, []);
 
-  // Helper function to truncate text to 50 words
   const truncateText = (text, wordLimit = 50) => {
     const words = text.split(" ");
     if (words.length > wordLimit) {
@@ -37,10 +44,9 @@ export default function DashboardPage() {
     return text;
   };
 
-  // Smooth scroll handler to scroll to the specified section with offset
   const onScrollToSection = (continent) => {
     const targetSection = document.getElementById(continent);
-    const headerOffset = 80; // Adjust this value based on your sticky header height
+    const headerOffset = 80;
 
     if (targetSection) {
       const elementPosition =
@@ -62,7 +68,6 @@ export default function DashboardPage() {
     );
   }
 
-  // Gradient colors for each continent
   const gradients = {
     Africa: "from-blue-500 to-purple-500",
     Asia: "from-green-400 to-teal-500",
@@ -71,6 +76,20 @@ export default function DashboardPage() {
     "South America": "from-purple-500 to-indigo-500",
     Oceania: "from-teal-500 to-blue-500",
     Antarctica: "from-purple-500 to-indigo-500",
+  };
+
+  const icons = {
+    Africa: <FaGlobeAfrica className="text-foreground text-2xl mr-2" />,
+    Asia: <FaGlobeAsia className="text-foreground text-2xl mr-2" />,
+    Europe: <FaGlobeEurope className="text-foreground text-2xl mr-2" />,
+    "North America": (
+      <FaGlobeAmericas className="text-foreground text-2xl mr-2" />
+    ),
+    "South America": (
+      <FaGlobeAmericas className="text-foreground text-2xl mr-2" />
+    ),
+    Oceania: <GiIsland className="text-foreground text-2xl mr-2" />,
+    Antarctica: <WiSnowflakeCold className="text-foreground text-2xl mr-2" />,
   };
 
   const continents = [
@@ -90,37 +109,34 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background flex-col">
-      {/* Navbar */}
       <Navbar />
-
-      {/* Sidebar (Header with Hamburger Menu) */}
       <Sidebar onScrollToSection={onScrollToSection} />
-
-      {/* Main content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <h2 className="text-2xl sm:text-3xl font-semibold text-foreground mb-4 text-center sm:text-left">
           Welcome to the Dashboard!
         </h2>
 
-        {/* Display conflicts grouped by continent */}
         {conflictsByContinent.map(
           ({ continent, conflicts }) =>
-            conflicts.length > 0 && ( // Only show section if there are conflicts for the continent
+            conflicts.length > 0 && (
               <div key={continent} className="mb-12" id={continent}>
-                <hr className={`bg-gradient-to-r ${gradients[continent]} h-1 mb-4`} />
-                <h3 className="text-xl font-semibold text-foreground mb-4 text-center">
-                  {continent}
-                </h3>
-                <hr className={`bg-gradient-to-r ${gradients[continent]} h-1 mb-6`} />
+                <hr
+                  className={`bg-gradient-to-r ${gradients[continent]} h-1 mb-4`}
+                />
+                <div className="flex items-center justify-center mb-4 text-xl font-semibold text-foreground">
+                  {icons[continent]} {continent}
+                </div>
+                <hr
+                  className={`bg-gradient-to-r ${gradients[continent]} h-1 mb-6`}
+                />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {conflicts.map((conflict) => (
                     <div
                       key={conflict.id}
                       onClick={() => router.push(`/chat/${conflict.id}`)}
-                      className={`p-[1px] rounded-lg border-transparent transition-transform transform hover:scale-105 cursor-pointer bg-background`}
+                      className="p-[1px] rounded-lg border-transparent transition-transform transform hover:scale-105 cursor-pointer bg-background"
                     >
-                      {/* Hover Gradient Border */}
                       <div
                         className={`rounded-lg shadow-lg hover:shadow-xl p-1 bg-background border border-transparent hover:border-0 hover:bg-gradient-to-r ${gradients[continent]}`}
                       >
