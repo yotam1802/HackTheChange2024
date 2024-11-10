@@ -184,7 +184,7 @@ export default function ConflictPage({ params: paramsPromise }) {
                 opacity: charitiesInView ? 1 : 0,
               }}
               transition={{ duration: 2, ease: "easeInOut" }}
-              className="charities-section mb-24 mt-24"
+              className="charities-section mb-24 mt-8"
             >
               <h3 className="text-3xl font-semibold text-center my-4">
                 Charity Resources
