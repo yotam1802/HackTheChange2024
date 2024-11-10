@@ -21,6 +21,24 @@
         "name": "Red Cross",
         "url": "https://www.icrc.org/en/where-we-work/europe-central-asia/ukraine"
       }
+    ],
+    "timeline": [
+      {
+        "date": "2014",
+        "event": "Russia annexed Crimea, leading to condemnation and sanctions."
+      },
+      {
+        "date": "2022",
+        "event": "Full-scale invasion of Ukraine by Russia begins."
+      },
+      {
+        "date": "2022-03",
+        "event": "International sanctions imposed on Russia."
+      },
+      {
+        "date": "2023-04",
+        "event": "Peace talks held but end without resolution."
+      }
     ]
   },
   {
@@ -44,6 +62,21 @@
       {
         "name": "UNRWA",
         "url": "https://www.unrwa.org"
+      }
+    ],
+    "timeline": [
+      {
+        "date": "1948",
+        "event": "Establishment of Israel and beginning of ongoing disputes."
+      },
+      {
+        "date": "1967",
+        "event": "Six-Day War results in Israeli control of Gaza and West Bank."
+      },
+      { "date": "1993", "event": "Oslo Accords signed with hopes of peace." },
+      {
+        "date": "2023",
+        "event": "Increased violence and international mediation attempts."
       }
     ]
   },
@@ -69,6 +102,12 @@
         "name": "UN World Food Programme",
         "url": "https://www.wfp.org/countries/yemen"
       }
+    ],
+    "timeline": [
+      { "date": "2014", "event": "Houthi forces capture the capital, Sana'a." },
+      { "date": "2015", "event": "Saudi-led coalition intervenes in Yemen." },
+      { "date": "2020", "event": "UN reports Yemen facing famine conditions." },
+      { "date": "2022", "event": "Ceasefire declared but remains fragile." }
     ]
   },
   {
@@ -92,6 +131,24 @@
       {
         "name": "International Rescue Committee",
         "url": "https://www.rescue.org/country/syria"
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2011",
+        "event": "Arab Spring protests start, leading to civil unrest."
+      },
+      {
+        "date": "2013",
+        "event": "Chemical weapons used, leading to international outcry."
+      },
+      {
+        "date": "2015",
+        "event": "Russia intervenes in support of the Assad regime."
+      },
+      {
+        "date": "2023",
+        "event": "Conflict continues with humanitarian crises."
       }
     ]
   },
@@ -117,6 +174,24 @@
         "name": "UN World Food Programme",
         "url": "https://www.wfp.org/countries/sudan"
       }
+    ],
+    "timeline": [
+      {
+        "date": "2023-04",
+        "event": "Outbreak of civil war between Sudanese Armed Forces and Rapid Support Forces."
+      },
+      {
+        "date": "2023-05",
+        "event": "International community begins evacuation efforts for foreign nationals."
+      },
+      {
+        "date": "2023-06",
+        "event": "UN warns of escalating humanitarian crisis due to displacement and food shortages."
+      },
+      {
+        "date": "2023-08",
+        "event": "Peace negotiations attempted but fail to reach a ceasefire."
+      }
     ]
   },
   {
@@ -140,6 +215,24 @@
       {
         "name": "Doctors Without Borders",
         "url": "https://www.doctorswithoutborders.org/what-we-do/countries/ethiopia"
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2020-11",
+        "event": "Conflict erupts in Tigray region between government forces and TPLF."
+      },
+      {
+        "date": "2021-06",
+        "event": "Tigray forces recapture much of the region as government forces withdraw."
+      },
+      {
+        "date": "2022-03",
+        "event": "Ceasefire announced, allowing for humanitarian aid access."
+      },
+      {
+        "date": "2023-01",
+        "event": "Instability remains in Oromia and Amhara regions, despite Tigray ceasefire."
       }
     ]
   },
@@ -165,6 +258,24 @@
         "name": "UNHCR Sahel Crisis",
         "url": "https://www.unhcr.org/sahel-crisis.html"
       }
+    ],
+    "timeline": [
+      {
+        "date": "2012",
+        "event": "Conflict begins in Mali following a coup and rise of armed groups."
+      },
+      {
+        "date": "2017",
+        "event": "G5 Sahel joint force established to combat terrorism and instability."
+      },
+      {
+        "date": "2021",
+        "event": "France announces withdrawal of Operation Barkhane, raising security concerns."
+      },
+      {
+        "date": "2023",
+        "event": "Violence intensifies, affecting millions across Mali, Burkina Faso, and Niger."
+      }
     ]
   },
   {
@@ -189,6 +300,24 @@
         "name": "World Food Programme Haiti",
         "url": "https://www.wfp.org/countries/haiti"
       }
+    ],
+    "timeline": [
+      {
+        "date": "2010",
+        "event": "Haiti suffers devastating earthquake, worsening economic and security conditions."
+      },
+      {
+        "date": "2021",
+        "event": "President Jovenel Moïse assassinated, increasing political instability."
+      },
+      {
+        "date": "2022-08",
+        "event": "Gang violence escalates, with armed groups controlling parts of Port-au-Prince."
+      },
+      {
+        "date": "2023-04",
+        "event": "International community calls for intervention to address gang violence."
+      }
     ]
   },
   {
@@ -212,6 +341,24 @@
       {
         "name": "International Rescue Committee",
         "url": "https://www.rescue.org/country/myanmar"
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2021-02",
+        "event": "Myanmar military stages a coup, overthrowing civilian government."
+      },
+      {
+        "date": "2021-04",
+        "event": "Mass protests and clashes with security forces lead to hundreds of deaths."
+      },
+      {
+        "date": "2022",
+        "event": "Ethnic armed groups escalate attacks against military forces."
+      },
+      {
+        "date": "2023",
+        "event": "International sanctions intensify, but conflict and human rights abuses continue."
       }
     ]
   }

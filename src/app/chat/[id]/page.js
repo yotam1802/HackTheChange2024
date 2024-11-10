@@ -277,7 +277,7 @@ export default function ConflictChatPage({ params }) {
 
           <section className="mt-6">
             <h3 className="text-2xl font-semibold text-foreground">
-              Public Thoughts
+              Discussion
             </h3>
             <ul className="mt-4 space-y-2">{renderThoughts(thoughts)}</ul>
           </section>
