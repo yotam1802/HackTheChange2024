@@ -45,8 +45,8 @@ const Chatbox = ({ conflict }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full">
-      <div className="flex flex-col w-full max-w-lg shadow-lg rounded-lg h-96">
+    <div className="flex flex-col items-center justify-center h-full w-full rounded-3xl bg-[#1c1b1b]">
+      <div className="flex flex-col w-full shadow-lg rounded-lg h-[40rem]">
         <div className="flex-grow overflow-y-auto p-4">
           <div className="text-center text-gray-400 mb-4">
             Any questions? Get verified AI information here.
@@ -60,7 +60,7 @@ const Chatbox = ({ conflict }) => {
               }`}
             >
               <div
-                className={`flex items-center max-w-xs px-4 py-2 rounded-lg shadow ${
+                className={`flex items-center px-4 py-2 rounded-lg shadow ${
                   msg.role === "user"
                     ? "bg-gray-500 text-white"
                     : "bg-gray-200 text-gray-800"
@@ -87,7 +87,7 @@ const Chatbox = ({ conflict }) => {
 
         <form
           onSubmit={handleSubmit}
-          className="flex items-center border-t pt-4 p-2 overflow-y-auto"
+          className="flex items-center p-2 overflow-y-auto h-36"
         >
           <input
             type="text"
