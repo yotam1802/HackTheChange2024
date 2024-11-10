@@ -3,6 +3,14 @@ import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
+import {
+  FaMapMarkedAlt,
+  FaChartPie,
+  FaHandsHelping,
+  FaComments,
+  FaBook,
+  FaBell,
+} from "react-icons/fa";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -67,63 +75,65 @@ export default function Home() {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl">
-          <div className="text-center p-6 bg-gray-800 rounded-lg shadow-md hover:bg-gray-750 transition-colors">
-            <h3 className="text-xl font-semibold mb-2 text-white">
+          <div className="p-6 rounded-lg shadow-md bg-gradient-to-r from-blue-500 to-purple-500 text-white transform transition-transform hover:scale-105">
+            <FaMapMarkedAlt className="text-3xl mb-3 mx-auto" />
+            <h3 className="text-xl font-semibold mb-2">
               Real-Time Conflict Maps
             </h3>
-            <p className="text-gray-300">
+            <p>
               Explore interactive maps showcasing global conflict zones with
               details on affected regions, current status, and recent updates.
             </p>
           </div>
 
-          <div className="text-center p-6 bg-gray-800 rounded-lg shadow-md hover:bg-gray-750 transition-colors">
-            <h3 className="text-xl font-semibold mb-2 text-white">
-              Data-Driven Insights
-            </h3>
-            <p className="text-gray-300">
+          <div className="p-6 rounded-lg shadow-md bg-gradient-to-r from-green-400 to-teal-500 text-white transform transition-transform hover:scale-105">
+            <FaChartPie className="text-3xl mb-3 mx-auto" />
+            <h3 className="text-xl font-semibold mb-2">Data-Driven Insights</h3>
+            <p>
               Access statistical insights on casualties, displacement, and
               humanitarian needs, empowering you with comprehensive conflict
               data.
             </p>
           </div>
 
-          <div className="text-center p-6 bg-gray-800 rounded-lg shadow-md hover:bg-gray-750 transition-colors">
-            <h3 className="text-xl font-semibold mb-2 text-white">
+          <div className="p-6 rounded-lg shadow-md bg-gradient-to-r from-red-500 to-orange-500 text-white transform transition-transform hover:scale-105">
+            <FaHandsHelping className="text-3xl mb-3 mx-auto" />
+            <h3 className="text-xl font-semibold mb-2">
               Charitable Initiatives
             </h3>
-            <p className="text-gray-300">
+            <p>
               Connect with organizations supporting conflict-affected areas,
               allowing you to directly contribute to peacebuilding efforts.
             </p>
           </div>
 
-          <div className="text-center p-6 bg-gray-800 rounded-lg shadow-md hover:bg-gray-750 transition-colors">
-            <h3 className="text-xl font-semibold mb-2 text-white">
-              Discussion Forums
-            </h3>
-            <p className="text-gray-300">
+          <div className="p-6 rounded-lg shadow-md bg-gradient-to-r from-yellow-500 to-pink-500 text-white transform transition-transform hover:scale-105">
+            <FaComments className="text-3xl mb-3 mx-auto" />
+            <h3 className="text-xl font-semibold mb-2">Discussion Forums</h3>
+            <p>
               Join conversations with a global community to discuss perspectives
               and propose solutions to foster peace and understanding.
             </p>
           </div>
 
-          <div className="text-center p-6 bg-gray-800 rounded-lg shadow-md hover:bg-gray-750 transition-colors">
-            <h3 className="text-xl font-semibold mb-2 text-white">
+          <div className="p-6 rounded-lg shadow-md bg-gradient-to-r from-purple-500 to-indigo-500 text-white transform transition-transform hover:scale-105">
+            <FaBook className="text-3xl mb-3 mx-auto" />
+            <h3 className="text-xl font-semibold mb-2">
               Educational Resources
             </h3>
-            <p className="text-gray-300">
+            <p>
               Access articles, reports, and historical overviews that provide
               context to current conflicts, helping you become an informed
               global citizen.
             </p>
           </div>
 
-          <div className="text-center p-6 bg-gray-800 rounded-lg shadow-md hover:bg-gray-750 transition-colors">
-            <h3 className="text-xl font-semibold mb-2 text-white">
+          <div className="p-6 rounded-lg shadow-md bg-gradient-to-r from-teal-500 to-blue-500 text-white transform transition-transform hover:scale-105">
+            <FaBell className="text-3xl mb-3 mx-auto" />
+            <h3 className="text-xl font-semibold mb-2">
               Alerts and Notifications
             </h3>
-            <p className="text-gray-300">
+            <p>
               Receive timely notifications about updates in active conflict
               zones, keeping you aware of crucial developments.
             </p>
