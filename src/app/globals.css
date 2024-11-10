@@ -24,3 +24,41 @@ body {
 .mapboxgl-popup-close-button {
   @apply m-2 p-1 text-gray-700 hover:text-gray-900 bg-white rounded-full;
 }
+
+/* Rainbow neon glow animation */
+@keyframes rainbowGlow {
+  0% {
+    border-color: #ff007f;
+  }
+  15% {
+    border-color: #ff00ff;
+  }
+  30% {
+    border-color: #7f00ff;
+  }
+  45% {
+    border-color: #0000ff;
+  }
+  60% {
+    border-color: #00ffff;
+  }
+  75% {
+    border-color: #00ff00;
+  }
+  90% {
+    border-color: #ffff00;
+  }
+  100% {
+    border-color: #ff7f00;
+  }
+}
+
+/* Apply neon glow effect to the Chatbox container */
+.chatbox-neon {
+  border: 2px solid;
+  border-radius: 1.5rem;
+  animation: rainbowGlow 3s linear infinite;
+  box-shadow: 0px 0px 5px rgba(255, 0, 255, 0.5),
+    0px 0px 10px rgba(0, 255, 255, 0.5), 0px 0px 15px rgba(255, 255, 0, 0.5),
+    0px 0px 20px rgba(255, 0, 0, 0.5);
+}
