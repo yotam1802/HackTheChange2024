@@ -47,11 +47,17 @@ const Chatbox = ({ conflict }) => {
   return (
     <div className="flex flex-col items-center justify-center h-full w-full rounded-3xl bg-gradient-to-br from-gray-800 to-gray-900 shadow-xl p-6">
       <div className="flex flex-col w-full rounded-lg h-[40rem] bg-opacity-90 bg-[#2a2a2a] border border-gray-600 overflow-hidden">
-        <div className="flex-grow overflow-y-auto p-4">
-          <div className="text-center text-gray-300 mb-4">
-            Any questions? Get verified AI information here.
-          </div>
+        <div className="flex-grow overflow-y-auto p-4 relative">
+          {/* Centered message for no messages */}
+          {messages.length === 0 && !isTyping && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <p className="text-center text-gray-300 text-2xl font-semibold p-6">
+                Any questions? <br /> Get verified AI information here.
+              </p>
+            </div>
+          )}
 
+          {/* Message history */}
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -75,6 +81,7 @@ const Chatbox = ({ conflict }) => {
             </div>
           ))}
 
+          {/* Typing indicator */}
           {isTyping && (
             <div className="flex items-center my-2">
               <div className="flex items-center bg-gray-200 text-gray-800 px-4 py-2 rounded-lg shadow text-sm">
@@ -85,6 +92,7 @@ const Chatbox = ({ conflict }) => {
           )}
         </div>
 
+        {/* Input field */}
         <form
           onSubmit={handleSubmit}
           className="flex items-center p-2 border-t border-gray-600 bg-[#1f1f1f] h-16"
