@@ -5,6 +5,7 @@ import Image from "next/image";
 import { FaAngleLeft } from "react-icons/fa";
 import { use } from "react";
 import { motion } from "framer-motion";
+import Chatbox from "@/components/Chatbox";
 
 export default function ConflictPage({ params: paramsPromise }) {
   const router = useRouter();
