@@ -112,7 +112,6 @@ export default function ConflictChatPage({ params }) {
         <h2 className="text-3xl font-semibold text-foreground my-4">
           {conflict.title}
         </h2>
-        <p className="text-foreground mb-2">{conflict.description}</p>
 
         <div className="mt-4 bg-foreground bg-opacity-10 p-4 rounded-lg shadow-md">
           <div className="flex items-center space-x-2">
