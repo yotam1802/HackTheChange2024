@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Navbar from "@/components/Navbar";
-import { FaAngleLeft, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+import { FaAngleLeft, FaArrowUp, FaArrowDown } from "react-icons/fa";
 
 export default function ConflictChatPage({ params }) {
   const { data: session, status } = useSession();
@@ -12,25 +12,19 @@ export default function ConflictChatPage({ params }) {
   const [thought, setThought] = useState("");
   const [thoughts, setThoughts] = useState([]);
 
-  const { id } = React.use(params); // Unwrap the params promise
+  const { id } = React.use(params);
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login");
-    }
+    if (status === "unauthenticated") router.push("/login");
   }, [status, router]);
 
   useEffect(() => {
     if (id) {
       const fetchConflict = async () => {
-        const res = await fetch(`/cache/conflicts.json`);
+        const res = await fetch("/cache/conflicts.json");
         const data = await res.json();
-        const selectedConflict = data.find(
-          (c) => parseInt(c.id) === parseInt(id)
-        );
-        setConflict(selectedConflict);
+        setConflict(data.find((c) => parseInt(c.id) === parseInt(id)));
       };
-
       fetchConflict();
     }
   }, [id]);
@@ -40,9 +34,9 @@ export default function ConflictChatPage({ params }) {
       const fetchThoughts = async () => {
         const res = await fetch(`/api/thoughts?conflictId=${id}`);
         const data = await res.json();
-        // Sort thoughts by likes in descending order
-        data.sort((a, b) => b.likes - a.likes);
-        setThoughts(data);
+        setThoughts(
+          data.sort((a, b) => b.likes - b.dislikes - (a.likes - a.dislikes))
+        );
       };
       fetchThoughts();
     }
@@ -52,21 +46,21 @@ export default function ConflictChatPage({ params }) {
     if (thought.trim()) {
       const newThought = {
         conflictId: id,
-        user: session?.user?.name || "Anonymous",
+        user: session?.user?.email || "Anonymous",
         text: thought,
       };
 
       const res = await fetch("/api/thoughts", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newThought),
       });
 
       const savedThought = await res.json();
       setThoughts((prev) =>
-        [...prev, savedThought].sort((a, b) => b.likes - a.likes)
+        [...prev, savedThought].sort(
+          (a, b) => b.likes - b.dislikes - (a.likes - a.dislikes)
+        )
       );
       setThought("");
     }
@@ -76,31 +70,25 @@ export default function ConflictChatPage({ params }) {
     try {
       const res = await fetch("/api/thoughts", {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ thoughtId, action }),
       });
-
       if (!res.ok) throw new Error("Failed to update reaction");
 
       const updatedThought = await res.json();
-
       setThoughts((prev) =>
         prev
           .map((thought) => {
             if (thought._id === thoughtId) {
-              // Adjust likes or dislikes locally based on action
-              const newThought = { ...thought };
-              if (action === "like")
-                newThought.likes = (newThought.likes || 0) + 1;
+              const updated = { ...thought };
+              if (action === "like") updated.likes = (updated.likes || 0) + 1;
               if (action === "dislike")
-                newThought.dislikes = (newThought.dislikes || 0) + 1;
-              return newThought;
+                updated.dislikes = (updated.dislikes || 0) + 1;
+              return updated;
             }
             return thought;
           })
-          .sort((a, b) => b.likes - a.likes)
+          .sort((a, b) => b.likes - b.dislikes - (a.likes - a.dislikes))
       );
     } catch (error) {
       console.error("Error updating reaction:", error);
@@ -113,7 +101,6 @@ export default function ConflictChatPage({ params }) {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="container mx-auto p-6">
-        {/* Back Button */}
         <button
           onClick={() => router.push("/dashboard")}
           className="flex items-center text-foreground mb-4 hover:underline"
@@ -126,50 +113,54 @@ export default function ConflictChatPage({ params }) {
           {conflict.title}
         </h2>
         <p className="text-foreground mb-2">{conflict.description}</p>
-        <div className="mt-6">
+
+        <div className="mt-4 bg-foreground bg-opacity-10 p-4 rounded-lg shadow-md">
+          <div className="flex items-center space-x-2">
+            <textarea
+              className="w-full p-4 rounded-lg bg-background text-foreground border border-foreground border-opacity-30 focus:outline-none focus:border-opacity-70 transition-all"
+              value={thought}
+              onChange={(e) => setThought(e.target.value)}
+              placeholder="Share your thoughts..."
+              rows={1}
+            />
+            <button
+              onClick={handlePostThought}
+              className="h-12 px-6 rounded-lg text-background bg-foreground hover:bg-opacity-90 transition-all transform hover:scale-105"
+            >
+              Post
+            </button>
+          </div>
+        </div>
+
+        <section className="mt-6">
           <h3 className="text-2xl font-semibold text-foreground">
             Public Thoughts
           </h3>
-          <ul className="mt-4">
+          <ul className="mt-4 space-y-2">
             {thoughts.map((thought, index) => (
               <li
                 key={index}
-                className="mb-2 p-2 border border-example-third_colour rounded-md"
+                className="p-2 rounded-md flex items-start space-x-4"
               >
-                <div className="flex justify-between items-center">
-                  <span>
-                    <strong>{thought.user}:</strong> {thought.text}
-                  </span>
-                  <div className="flex items-center">
-                    <button onClick={() => handleReaction(thought._id, "like")}>
-                      <FaThumbsUp className="mr-1" /> {thought.likes || 0}
-                    </button>
-                    <button
-                      onClick={() => handleReaction(thought._id, "dislike")}
-                    >
-                      <FaThumbsDown className="ml-2 mr-1" />{" "}
-                      {thought.dislikes || 0}
-                    </button>
-                  </div>
+                <div className="flex flex-col items-center space-y-1">
+                  <button onClick={() => handleReaction(thought._id, "like")}>
+                    <FaArrowUp className="text-lg" />
+                  </button>
+                  <span>{(thought.likes || 0) - (thought.dislikes || 0)}</span>
+                  <button
+                    onClick={() => handleReaction(thought._id, "dislike")}
+                  >
+                    <FaArrowDown className="text-lg" />
+                  </button>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">{thought.user}</p>
+                  {thought.text}
                 </div>
               </li>
             ))}
           </ul>
-          <div className="mt-4">
-            <textarea
-              className="w-full p-2 border border-example-third_colour rounded-md bg-transparent"
-              value={thought}
-              onChange={(e) => setThought(e.target.value)}
-              placeholder="Share your thoughts..."
-            />
-            <button
-              onClick={handlePostThought}
-              className="mt-2 h-8 px-4 rounded-full border border-foreground text-foreground text-xs flex items-center justify-center transition-colors hover:bg-foreground hover:text-background hover:border-transparent"
-            >
-              Post Thought
-            </button>
-          </div>
-        </div>
+        </section>
       </div>
     </div>
   );
