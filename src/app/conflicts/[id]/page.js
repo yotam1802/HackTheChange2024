@@ -145,11 +145,8 @@ export default function ConflictPage({ params: paramsPromise }) {
           Back to Map
         </button>
 
-        <h1 className="text-3xl sm:text-4xl font-bold text-center my-4 sm:my-10">
-          {conflict.title}
-        </h1>
-
-        <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px] rounded-md overflow-hidden shadow-lg mb-6">
+        {/* Hero section with gradient overlay */}
+        <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px] mb-6">
           <Image
             src={conflict.imageSrcUrl}
             alt={conflict.imageDesc}
@@ -157,6 +154,12 @@ export default function ConflictPage({ params: paramsPromise }) {
             objectFit="cover"
             className="object-cover"
           />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent opacity-100 h-full"></div>
+          {/* Title over gradient */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 bg-opacity-0 text-center text-white">
+            <h1 className="text-3xl sm:text-5xl font-bold">{conflict.title}</h1>
+          </div>
         </div>
 
         <p className="text-gray-500 text-center text-sm sm:text-base mb-6">
@@ -288,7 +291,7 @@ export default function ConflictPage({ params: paramsPromise }) {
           )}
 
         {/* Chatbox and Share Link */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-8 mb-16">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-8 max-md:mt-0 mb-16">
           <Chatbox conflict={conflict.title} />
 
           <div className="w-full sm:w-1/2 lg:w-1/3 bg-background text-foreground p-6 rounded-lg shadow-md">

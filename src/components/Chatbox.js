@@ -45,8 +45,8 @@ const Chatbox = ({ conflict }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full rounded-3xl bg-gradient-to-br from-gray-800 to-gray-900 shadow-xl p-6 chatbox-neon">
-      <div className="flex flex-col w-full rounded-lg h-[40rem] bg-opacity-90 bg-[#2a2a2a] border border-gray-600 overflow-hidden">
+    <div className="flex flex-col items-center justify-center h-full w-full rounded-3xl bg-gradient-to-br from-gray-800 to-gray-900 shadow-xl p-6">
+      <div className="flex flex-col w-full rounded-lg h-[40rem] max-md:h-[30rem] bg-opacity-90 bg-[#2a2a2a] border border-gray-600 overflow-hidden">
         <div className="flex-grow overflow-y-auto p-4 relative">
           {/* Centered message for no messages */}
           {messages.length === 0 && !isTyping && (
