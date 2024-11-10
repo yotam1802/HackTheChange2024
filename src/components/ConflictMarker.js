@@ -15,6 +15,9 @@ export default function ConflictMarker({
   imageDesc,
   id,
 }) {
+  const truncatedDescription =
+    description.length > 200 ? `${description.slice(0, 200)}...` : description;
+
   return (
     <div>
       <Marker
@@ -44,7 +47,7 @@ export default function ConflictMarker({
         >
           <div className="p-2 text-black">
             <h2 className="font-bold">{title}</h2>
-            <p>{description}</p>
+            <p>{truncatedDescription}</p>
             {imageURL && (
               <div className="mt-2 w-full h-auto max-h-40 relative">
                 <Image

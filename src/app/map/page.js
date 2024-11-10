@@ -18,7 +18,7 @@ export default function MapPage() {
   const router = useRouter();
   const [conflicts, setConflicts] = useState([]);
   const [selectedConflict, setSelectedConflict] = useState(null);
-  const [zoom, setZoom] = useState(3); // State to track zoom level
+  const [zoom, setZoom] = useState(3);
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function MapPage() {
           height: "calc(100vh - 64px)",
         }}
         mapStyle="mapbox://styles/mapbox/dark-v10"
-        onZoom={(e) => setZoom(e.viewState.zoom)} // Update zoom state
+        onZoom={(e) => setZoom(e.viewState.zoom)}
       >
         <NavigationControl position="top-left" />
         <FullscreenControl position="top-left" />
@@ -89,21 +89,36 @@ export default function MapPage() {
               id={conflict.id}
             />
 
-            {/* Tank Marker: Only show when zoomed in and conflict selected */}
+            {/* Multiple Tank Markers: Only show when zoomed in and conflict selected */}
             {selectedConflict === conflict.id && zoom > 5 && (
-              <Marker
-                longitude={conflict.longitude}
-                latitude={conflict.latitude + 0.3} // Position the tank above the conflict marker
-              >
-                <div className="animate-tank">
-                  <Image
-                    src="/icons/tank.png"
-                    alt="Tank Icon"
-                    width={30}
-                    height={30}
-                  />
-                </div>
-              </Marker>
+              <>
+                <Marker
+                  longitude={conflict.longitude + 0.1}
+                  latitude={conflict.latitude + 0.3}
+                >
+                  <div className="animate-tank1">
+                    <Image
+                      src="/icons/tank.png"
+                      alt="Tank Icon"
+                      width={30}
+                      height={30}
+                    />
+                  </div>
+                </Marker>
+                <Marker
+                  longitude={conflict.longitude - 0.1}
+                  latitude={conflict.latitude + 0.3}
+                >
+                  <div className="animate-tank2">
+                    <Image
+                      src="/icons/tank.png"
+                      alt="Tank Icon"
+                      width={30}
+                      height={30}
+                    />
+                  </div>
+                </Marker>
+              </>
             )}
           </div>
         ))}
@@ -111,22 +126,46 @@ export default function MapPage() {
 
       {/* CSS Animation for Tank Movement */}
       <style jsx>{`
-        .animate-tank {
-          animation: tankMove 3s infinite linear;
+        .animate-tank1 {
+          animation: tankMove1 3s infinite linear;
+        }
+        .animate-tank2 {
+          animation: tankMove2 4s infinite linear;
         }
 
-        @keyframes tankMove {
+        @keyframes tankMove1 {
           0% {
             transform: translate(0, 0);
           }
           25% {
-            transform: translate(10px, -5px);
+            transform: translate(10px, -10px);
           }
           50% {
-            transform: translate(15px, 0);
+            transform: translate(15px, 5px);
           }
           75% {
-            transform: translate(10px, 5px);
+            transform: translate(5px, 10px);
+          }
+          100% {
+            transform: translate(0, 0);
+          }
+        }
+
+        @keyframes tankMove2 {
+          0% {
+            transform: translate(0, 0);
+          }
+          20% {
+            transform: translate(-10px, 10px);
+          }
+          40% {
+            transform: translate(-15px, -5px);
+          }
+          60% {
+            transform: translate(-5px, -10px);
+          }
+          80% {
+            transform: translate(-10px, 5px);
           }
           100% {
             transform: translate(0, 0);
