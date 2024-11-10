@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -21,6 +22,7 @@ export default function ConflictChatPage({ params }) {
   const [replyTo, setReplyTo] = useState(null);
   const [replyText, setReplyText] = useState({});
   const [collapsedReplies, setCollapsedReplies] = useState({});
+  const [filter, setFilter] = useState("mostLiked"); // New filter state
 
   const { id } = React.use(params);
 
@@ -44,13 +46,25 @@ export default function ConflictChatPage({ params }) {
       const fetchThoughts = async () => {
         const res = await fetch(`/api/thoughts?conflictId=${id}`);
         const data = await res.json();
-        setThoughts(
-          data.sort((a, b) => b.likes - b.dislikes - (a.likes - a.dislikes))
-        );
+        setThoughts(sortThoughts(data));
       };
       fetchThoughts();
     }
-  }, [id]);
+  }, [id, filter]);
+
+  // Function to sort thoughts based on selected filter
+  const sortThoughts = (thoughtsList) => {
+    return thoughtsList.sort((a, b) => {
+      if (filter === "mostLiked") {
+        return b.likes - b.dislikes - (a.likes - a.dislikes);
+      } else if (filter === "mostRecent") {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      } else if (filter === "mostReplies") {
+        return b.replyCount - a.replyCount;
+      }
+      return 0;
+    });
+  };
 
   const toggleCollapse = (thoughtId) => {
     setCollapsedReplies((prev) => ({
@@ -75,11 +89,7 @@ export default function ConflictChatPage({ params }) {
       });
 
       const savedThought = await res.json();
-      setThoughts((prev) =>
-        [...prev, savedThought].sort(
-          (a, b) => b.likes - b.dislikes - (a.likes - a.dislikes)
-        )
-      );
+      setThoughts((prev) => sortThoughts([...prev, savedThought]));
       setThought("");
       setReplyTo(null);
     }
@@ -96,18 +106,20 @@ export default function ConflictChatPage({ params }) {
 
       const updatedThought = await res.json();
       setThoughts((prev) =>
-        prev
-          .map((thought) => {
-            if (thought._id === thoughtId) {
-              const updated = { ...thought };
-              if (action === "like") updated.likes = (updated.likes || 0) + 1;
-              if (action === "dislike")
-                updated.dislikes = (updated.dislikes || 0) + 1;
-              return updated;
-            }
-            return thought;
-          })
-          .sort((a, b) => b.likes - b.dislikes - (a.likes - a.dislikes))
+        sortThoughts(
+          prev.map((thought) =>
+            thought._id === thoughtId
+              ? {
+                  ...thought,
+                  likes: action === "like" ? thought.likes + 1 : thought.likes,
+                  dislikes:
+                    action === "dislike"
+                      ? thought.dislikes + 1
+                      : thought.dislikes,
+                }
+              : thought
+          )
+        )
       );
     } catch (error) {
       console.error("Error updating reaction:", error);
@@ -134,11 +146,7 @@ export default function ConflictChatPage({ params }) {
       });
 
       const savedReply = await res.json();
-      setThoughts((prev) =>
-        [...prev, savedReply].sort(
-          (a, b) => b.likes - b.dislikes - (a.likes - a.dislikes)
-        )
-      );
+      setThoughts((prev) => sortThoughts([...prev, savedReply]));
       setReplyText((prev) => ({ ...prev, [thoughtId]: "" }));
       setReplyTo(null);
     }
@@ -248,6 +256,23 @@ export default function ConflictChatPage({ params }) {
                 Post
               </button>
             </div>
+          </div>
+
+          {/* Filter Options */}
+          <div className="mt-4 flex items-center space-x-2">
+            <label htmlFor="filter" className="text-foreground font-semibold">
+              Filter:
+            </label>
+            <select
+              id="filter"
+              className="p-2 rounded-lg bg-background border border-foreground text-foreground"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            >
+              <option value="mostLiked">Most Liked</option>
+              <option value="mostRecent">Most Recent</option>
+              <option value="mostReplies">Most Replies</option>
+            </select>
           </div>
 
           <section className="mt-6">
