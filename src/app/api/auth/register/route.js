@@ -15,9 +15,13 @@ export async function POST(req) {
     });
   }
 
-  // Hash password and store user
+  // Hash password and store user with initial notifications count
   const hashedPassword = bcrypt.hashSync(password, 10);
-  await usersCollection.insertOne({ email, password: hashedPassword });
+  await usersCollection.insertOne({
+    email,
+    password: hashedPassword,
+    notifications: 0, // Initialize notifications to 0
+  });
 
   return new Response(JSON.stringify({ message: "User registered" }), {
     status: 201,

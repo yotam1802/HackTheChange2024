@@ -26,9 +26,9 @@ const authOptions = {
           email: credentials.email,
         });
 
-        // Validate password
+        // Validate password and return user with notifications
         if (user && bcrypt.compareSync(credentials.password, user.password)) {
-          return { email: user.email };
+          return { email: user.email, notifications: user.notifications };
         }
         return null;
       },
@@ -39,10 +39,12 @@ const authOptions = {
   },
   callbacks: {
     async session({ session, token }) {
-      session.user = token;
+      // Include notifications in session
+      session.user = { ...token.user, notifications: token.user.notifications };
       return session;
     },
     async jwt({ token, user }) {
+      // Include notifications in token if user is logged in
       if (user) {
         token.user = user;
       }
