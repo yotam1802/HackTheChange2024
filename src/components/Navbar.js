@@ -23,7 +23,7 @@ export default function Navbar() {
           >
             {/* Favicon or logo */}
             <Image
-              src="/favicon.ico"
+              src="/Logo.png"
               alt="EmpowerNest favicon"
               width={50} // Set an appropriate size
               height={50} // Set an appropriate size
