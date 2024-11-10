@@ -1,5 +1,3 @@
-// /components/Sidebar.js
-
 import React from "react";
 
 export default function Sidebar({ onScrollToSection }) {
@@ -14,7 +12,7 @@ export default function Sidebar({ onScrollToSection }) {
         {continents.map((continent, index) => (
           <li
             key={index}
-            className="flex items-center justify-center cursor-pointer transition-colors duration-300 menuoption"
+            className="flex items-center cursor-pointer transition-colors duration-300 menuoption"
             onClick={() => onScrollToSection(continent)}
           >
             <span className="text-third_color mr-2">•</span>
