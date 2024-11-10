@@ -1,3 +1,5 @@
+// /components/Sidebar.js
+
 import React from "react";
 
 export default function Sidebar() {
@@ -12,15 +14,11 @@ export default function Sidebar() {
         {continents.map((continent, index) => (
           <li
             key={index}
-            className="flex items-center justify-center cursor-pointer transition-colors duration-300"
+            className="flex items-center justify-center cursor-pointer transition-colors duration-300 menuoption"
+            data-target={`#${continent}`} // Add data-target attribute
           >
             <span className="text-example-third_colour mr-2">•</span>
-            <a
-              href={`#${continent}`}
-              className="hover:text-example-third_colour"
-            >
-              {continent}
-            </a>
+            <span className="hover:text-example-third_colour">{continent}</span>
           </li>
         ))}
       </ul>

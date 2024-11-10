@@ -7,6 +7,20 @@ import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
 import Footer from "@/components/Footer";
 
+// Smooth scroll behavior
+useEffect(() => {
+  document.querySelectorAll(".menuoption").forEach((option) => {
+    option.addEventListener("click", function () {
+      const targetSection = document.querySelector(this.dataset.target);
+      targetSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  });
+}, []);
+
+
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
