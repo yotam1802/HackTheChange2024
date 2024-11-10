@@ -1,5 +1,3 @@
-// /components/Sidebar.js
-
 import React from "react";
 
 export default function Sidebar() {
