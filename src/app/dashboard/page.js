@@ -7,20 +7,6 @@ import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
 import Footer from "@/components/Footer";
 
-// Smooth scroll behavior
-useEffect(() => {
-  document.querySelectorAll(".menuoption").forEach((option) => {
-    option.addEventListener("click", function () {
-      const targetSection = document.querySelector(this.dataset.target);
-      targetSection.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    });
-  });
-}, []);
-
-
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -41,6 +27,17 @@ export default function DashboardPage() {
 
     fetchData();
   }, []);
+
+  // Smooth scroll handler to scroll to the specified section
+  const onScrollToSection = (continent) => {
+    const targetSection = document.getElementById(continent);
+    if (targetSection) {
+      targetSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
 
   if (status === "loading") {
     return (
@@ -64,7 +61,7 @@ export default function DashboardPage() {
 
       <div className="flex">
         {/* Sidebar */}
-        <Sidebar />
+        <Sidebar onScrollToSection={onScrollToSection} />
 
         {/* Main content */}
         <div className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-6">

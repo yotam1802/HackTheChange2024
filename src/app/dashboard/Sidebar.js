@@ -2,7 +2,7 @@
 
 import React from "react";
 
-export default function Sidebar() {
+export default function Sidebar({ onScrollToSection }) {
   const continents = ["Africa", "Asia", "Europe", "North America", "South America", "Oceania", "Antarctica"];
 
   return (
@@ -15,7 +15,7 @@ export default function Sidebar() {
           <li
             key={index}
             className="flex items-center justify-center cursor-pointer transition-colors duration-300 menuoption"
-            data-target={`#${continent}`} // Add data-target attribute
+            onClick={() => onScrollToSection(continent)} // Pass continent to scroll handler
           >
             <span className="text-example-third_colour mr-2">•</span>
             <span className="hover:text-example-third_colour">{continent}</span>
