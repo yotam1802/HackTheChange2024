@@ -5,13 +5,14 @@ import Image from "next/image";
 import { FaAngleLeft } from "react-icons/fa";
 import { use } from "react";
 import { motion } from "framer-motion";
-import Chatbox from "@/components/Chatbox";
 
 export default function ConflictPage({ params: paramsPromise }) {
   const router = useRouter();
   const params = use(paramsPromise);
   const { id } = params;
   const [conflict, setConflict] = useState(null);
+  const [casualties, setCasualties] = useState(0);
+  const [displaced, setDisplaced] = useState(0);
 
   useEffect(() => {
     if (id) {
@@ -31,6 +32,44 @@ export default function ConflictPage({ params: paramsPromise }) {
       fetchConflict();
     }
   }, [id]);
+
+  useEffect(() => {
+    if (conflict) {
+      // Ensure casualties and displaced are numbers
+      const casualtyTarget =
+        typeof conflict.casualties === "string"
+          ? parseInt(conflict.casualties.replace(/,/g, "")) // Remove commas if it's a string
+          : conflict.casualties; // If already a number, use it directly
+
+      const displacedTarget =
+        typeof conflict.displacement === "string"
+          ? parseInt(conflict.displacement.replace(/,/g, ""))
+          : conflict.displacement;
+
+      // Animation for casualties
+      const animateNumbers = (target, setValue, duration) => {
+        const start = 0;
+        const startTime = performance.now();
+
+        const update = (timestamp) => {
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const value = Math.floor(start + (target - start) * progress);
+
+          setValue(value);
+
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          }
+        };
+
+        requestAnimationFrame(update);
+      };
+
+      animateNumbers(casualtyTarget, setCasualties, 5000); // 5000ms = 5 seconds
+      animateNumbers(displacedTarget, setDisplaced, 5000); // 5000ms = 5 seconds
+    }
+  }, [conflict]);
 
   if (!conflict)
     return (
@@ -71,35 +110,29 @@ export default function ConflictPage({ params: paramsPromise }) {
 
       <div className="flex flex-col sm:flex-row justify-center gap-6 my-6">
         <motion.div
-          initial={{ opacity: 0, y: -20 }} // Start further lower
-          animate={{ opacity: 1, y: 0 }} // Animate to normal position
-          transition={{
-            duration: 1.5,
-            delay: 0.3,
-            ease: "easeIn", // Smooth easing
-          }}
+          initial={{ opacity: 0, y: -25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2, delay: 0 }}
           className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md w-full sm:w-[250px] lg:w-[300px] transition-transform transform hover:scale-105"
         >
           <h3 className="text-xl font-semibold mb-2">Casualties:</h3>
           <p className="text-3xl sm:text-4xl font-bold">
-            {conflict.casualties}
-          </p>
+            {casualties.toLocaleString()}
+          </p>{" "}
+          {/* Format number */}
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: -20 }} // Start further lower
-          animate={{ opacity: 1, y: 0 }} // Animate to normal position
-          transition={{
-            duration: 1.5,
-            delay: 0.6,
-            ease: "easeIn", // Smooth easing
-          }}
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.5, delay: 0.6 }}
           className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md w-full sm:w-[250px] lg:w-[300px] transition-transform transform hover:scale-105"
         >
           <h3 className="text-xl font-semibold mb-2">Displaced People:</h3>
           <p className="text-3xl sm:text-4xl font-bold">
-            {conflict.displacement}
-          </p>
+            {displaced.toLocaleString()}
+          </p>{" "}
+          {/* Format number */}
         </motion.div>
       </div>
 
