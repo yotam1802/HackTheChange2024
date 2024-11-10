@@ -4,7 +4,13 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { FaAngleLeft, FaArrowUp, FaArrowDown } from "react-icons/fa";
+import {
+  FaAngleLeft,
+  FaArrowUp,
+  FaArrowDown,
+  FaChevronDown,
+  FaChevronRight,
+} from "react-icons/fa";
 
 export default function ConflictChatPage({ params }) {
   const { data: session, status } = useSession();
@@ -14,6 +20,7 @@ export default function ConflictChatPage({ params }) {
   const [thoughts, setThoughts] = useState([]);
   const [replyTo, setReplyTo] = useState(null);
   const [replyText, setReplyText] = useState({});
+  const [collapsedReplies, setCollapsedReplies] = useState({});
 
   const { id } = React.use(params);
 
@@ -44,6 +51,13 @@ export default function ConflictChatPage({ params }) {
       fetchThoughts();
     }
   }, [id]);
+
+  const toggleCollapse = (thoughtId) => {
+    setCollapsedReplies((prev) => ({
+      ...prev,
+      [thoughtId]: !prev[thoughtId],
+    }));
+  };
 
   const handlePostThought = async () => {
     if (thought.trim()) {
@@ -156,10 +170,20 @@ export default function ConflictChatPage({ params }) {
             >
               Reply
             </button>
+            <button
+              onClick={() => toggleCollapse(thought._id)}
+              className="text-xs text-blue-500 ml-2"
+            >
+              {collapsedReplies[thought._id] ? (
+                <FaChevronRight />
+              ) : (
+                <FaChevronDown />
+              )}
+            </button>
             {replyTo === thought._id && (
               <div className="flex items-center space-x-2 mt-2">
                 <textarea
-                  className="w-full p-2 rounded-lg border border-gray-300"
+                  className="w-full p-2 rounded-lg border border-gray-300 bg-transparent"
                   value={replyText[thought._id] || ""}
                   onChange={(e) =>
                     handleReplyChange(thought._id, e.target.value)
@@ -171,13 +195,15 @@ export default function ConflictChatPage({ params }) {
                   onClick={() => handlePostReply(thought._id)}
                   className="text-xs text-blue-500"
                 >
-                  Post Reply
+                  Reply
                 </button>
               </div>
             )}
-            <ul className="ml-6 border-l pl-4">
-              {renderThoughts(thoughts, thought._id)}
-            </ul>
+            {!collapsedReplies[thought._id] && (
+              <ul className="ml-6 border-l pl-4">
+                {renderThoughts(thoughts, thought._id)}
+              </ul>
+            )}
           </div>
         </li>
       ));
