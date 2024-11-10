@@ -29,13 +29,13 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="/conflicts" className="hover:underline">
-                Conflicts
+              <a href="/map" className="hover:underline">
+                Map
               </a>
             </li>
             <li>
-              <a href="/resources" className="hover:underline">
-                Resources
+              <a href="/dashboard" className="hover:underline">
+                Dashboard
               </a>
             </li>
           </ul>
