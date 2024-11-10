@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { useEffect, useState } from "react";
+import Footer from "@/components/Footer";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -96,6 +97,7 @@ export default function DashboardPage() {
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
