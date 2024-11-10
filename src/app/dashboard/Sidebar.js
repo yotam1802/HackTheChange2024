@@ -5,14 +5,22 @@ import { FaBars, FaTimes } from "react-icons/fa";
 
 export default function Sidebar({ onScrollToSection }) {
   const [isOpen, setIsOpen] = useState(false);
-  const continents = ["Africa", "Asia", "Europe", "North America", "South America", "Oceania", "Antarctica"];
+  const continents = [
+    "Africa",
+    "Asia",
+    "Europe",
+    "North America",
+    "South America",
+    "Oceania",
+    "Antarctica",
+  ];
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
     <div className="w-full bg-background text-white sticky top-0 z-50">
       {/* Header for larger screens */}
-      <div className="flex items-center justify-between p-4">
+      <div className="flex items-center justify-between p-4 md:px-24">
         <h2 className="text-xl font-bold tracking-widest text-example-third_colour mb-0">
           Go To Continent
         </h2>
