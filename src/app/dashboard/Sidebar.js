@@ -15,10 +15,10 @@ export default function Sidebar({ onScrollToSection }) {
           <li
             key={index}
             className="flex items-center justify-center cursor-pointer transition-colors duration-300 menuoption"
-            onClick={() => onScrollToSection(continent)} // Pass continent to scroll handler
+            onClick={() => onScrollToSection(continent)}
           >
-            <span className="text-example-third_colour mr-2">•</span>
-            <span className="hover:text-example-third_colour">{continent}</span>
+            <span className="text-third_color mr-2">•</span>
+            <span className="hover:text-third_color">{continent}</span>
           </li>
         ))}
       </ul>
