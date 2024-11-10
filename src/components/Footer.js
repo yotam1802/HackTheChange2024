@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Logo and About */}
         <div>
-          <h3 className="text-2xl font-semibold mb-2">Conflict Awareness</h3>
+          <h3 className="text-2xl font-semibold mb-2">EmpowerNest</h3>
           <p className="text-sm">
             A platform dedicated to raising awareness about ongoing global
             conflicts and providing resources to those affected.
@@ -60,7 +60,7 @@ export default function Footer() {
 
       {/* Footer Bottom */}
       <div className="border-t border-background border-opacity-20 mt-6 pt-4 text-center text-sm">
-        <p>&copy; 2024 Conflict Awareness. All rights reserved.</p>
+        <p>&copy; 2024 EmpowerNest. All rights reserved.</p>
       </div>
     </footer>
   );
