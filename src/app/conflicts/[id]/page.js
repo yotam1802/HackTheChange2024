@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -94,6 +95,12 @@ export default function ConflictPage({ params: paramsPromise }) {
     );
   }
 
+  const gradientClasses = [
+    "bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500",
+    "bg-gradient-to-br from-teal-400 via-blue-500 to-purple-600",
+    "bg-gradient-to-br from-green-400 via-yellow-500 to-red-500",
+  ];
+
   return (
     <>
       <div className="flex flex-col min-h-screen bg-background text-foreground p-4 sm:p-6 lg:p-8">
@@ -141,7 +148,7 @@ export default function ConflictPage({ params: paramsPromise }) {
           >
             <h3 className="text-xl font-semibold mb-2">Casualties:</h3>
             <p className="text-3xl sm:text-4xl font-bold">
-              {casualties.toLocaleString()}
+              +{casualties.toLocaleString()}
             </p>
           </motion.div>
 
@@ -158,7 +165,7 @@ export default function ConflictPage({ params: paramsPromise }) {
           >
             <h3 className="text-xl font-semibold mb-2">Displaced People:</h3>
             <p className="text-3xl sm:text-4xl font-bold">
-              {displaced.toLocaleString()}
+              +{displaced.toLocaleString()}
             </p>
           </motion.div>
         </div>
@@ -191,7 +198,9 @@ export default function ConflictPage({ params: paramsPromise }) {
                   {conflict.charities_resources.map((charity, index) => (
                     <div
                       key={index}
-                      className="flex flex-col items-center p-6 bg-third_color text-white rounded-lg shadow-md transition-transform transform hover:scale-105"
+                      className={`${
+                        gradientClasses[index % gradientClasses.length]
+                      } flex flex-col items-center p-6 text-white rounded-lg shadow-md transition-transform transform hover:scale-105`}
                     >
                       <h2 className="text-xl font-semibold mb-3 text-center">
                         {charity.name}
@@ -202,7 +211,7 @@ export default function ConflictPage({ params: paramsPromise }) {
                       </p>
                       <a
                         href={charity.url}
-                        className="bg-white text-third_color px-4 py-2 rounded-md font-semibold transition-colors hover:bg-gray-200"
+                        className="px-4 py-2 rounded-md font-semibold bg-white bg-opacity-20 text-white hover:bg-opacity-100 hover:text-black transition-colors shadow-lg"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
