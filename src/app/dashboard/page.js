@@ -61,7 +61,7 @@ export default function DashboardPage() {
           {/* Display conflicts grouped by continent */}
           {conflictsByContinent.map(({ continent, conflicts }) => (
             conflicts.length > 0 && ( // Only show section if there are conflicts for the continent
-              <div key={continent} className="mb-12">
+              <div key={continent} className="mb-12" id={continent}>
                 <hr className="border-example-third_colour mb-4" />
                 <h3 className="text-xl font-semibold text-foreground mb-4 text-center">
                   {continent}
