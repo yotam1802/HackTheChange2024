@@ -41,9 +41,11 @@ export default function MapPage() {
     fetchConflicts();
   }, []);
 
-  const flyToConflict = (conflict) => {
-    setSelectedConflict(conflict.id);
-    if (mapRef.current) {
+  const toggleConflictMarker = (conflict) => {
+    setSelectedConflict((prevSelected) =>
+      prevSelected === conflict.id ? null : conflict.id
+    );
+    if (mapRef.current && selectedConflict !== conflict.id) {
       mapRef.current.flyTo({
         center: [conflict.longitude, conflict.latitude - 1],
         zoom: 6,
@@ -83,7 +85,7 @@ export default function MapPage() {
               title={conflict.title}
               description={conflict.description}
               isOpen={selectedConflict === conflict.id}
-              onClick={() => flyToConflict(conflict)}
+              onClick={() => toggleConflictMarker(conflict)}
               imageURL={conflict.imageSrcUrl}
               imageDesc={conflict.imageDesc}
               id={conflict.id}
